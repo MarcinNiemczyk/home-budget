@@ -1,6 +1,8 @@
 :root {
     --divider-color-dark: #050505;
     --divider-color-light: #1b1b1b;
+    --gradient-color-left: #7641E9;
+    --gradient-color-right: #4968EB;
 }
 
 * {
@@ -59,11 +61,35 @@ header {
 
 .navbar__link {
     color: #8a8a8a;
+    position: relative;
     text-decoration: none;
+    z-index: 1;
 }
 
 .navbar__link i {
     margin-right: 10px;
+}
+
+.navbar__link:hover {
+    color: white;
+}
+
+.navbar__link::after {
+    border-radius: 20px;
+    content: '';
+    display: block;
+    height: 50px;
+    left: 20px;
+    position: absolute;
+    top: 0;
+    transform: translate(-25%, -25%);
+    transition: 0.25s;
+    width: 220px;
+    z-index: -1;
+}
+
+.navbar__link:hover::after {
+    background-color: rgba(0, 0, 0, 0.25);
 }
 
 .navbar__item--active {
@@ -71,12 +97,12 @@ header {
     z-index: 1;
 }
 
-.navbar__item--active a {
+.navbar__item--active .navbar__link {
     color: white;
 }
 
 .navbar__item--active::after {
-    background: linear-gradient(to right, #7641E9, #4968EB);
+    background: linear-gradient(to right, var(--gradient-color-left), var(--gradient-color-right));
     border-radius: 20px;
     box-shadow: 0px 0px 3px var(--divider-color-dark);
     content: '';
@@ -88,4 +114,8 @@ header {
     transform: translate(-25%, -25%);
     width: 220px;
     z-index: -1;
+}
+
+.navbar__item--active .navbar__link:hover::after {
+    background: none;
 }
