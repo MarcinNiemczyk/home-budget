@@ -20,36 +20,36 @@ body {
 
 .wrapper {
     display: flex;
+    height: 100vh;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    left: 35px;
+    position: absolute;
+    top: 50px;
 }
 
 nav {
+    align-items: center;
     background-color: #111113;
     border-right: 2px groove var(--divider-color-dark);
     box-shadow: 2px 0px var(--divider-color-light);
-    display: grid;
-    grid-template-rows: 100px 1fr;
-    height: 100vh;
+    display: flex;
+    justify-content: center;
     width: 280px;
 }
 
 header {
     border-bottom: 2px groove var(--divider-color-dark);
     box-shadow: 0px 2px var(--divider-color-light);
-    height: 150px;
-    width: 100%;
-}
-
-.logo {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+    height: 140px;
     width: 100%;
 }
 
 .navbar {
-    display: flex;
-    justify-content: center;
-    margin-top: 60px;
+    margin-bottom: 20vh;
     margin-right: 20px;
 }
 
@@ -75,7 +75,7 @@ header {
 }
 
 .navbar__link::after {
-    border-radius: 20px;
+    border-radius: 30px;
     content: '';
     display: block;
     height: 50px;
@@ -83,12 +83,20 @@ header {
     position: absolute;
     top: 0;
     transform: translate(-25%, -25%);
-    transition: 0.25s;
+    transition: background-color 0.25s ease-out;
     width: 220px;
     z-index: -1;
 }
 
 .navbar__link:hover::after {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.navbar__link:focus {
+    outline: none;
+}
+
+.navbar__link:focus::after {
     background-color: rgba(0, 0, 0, 0.25);
 }
 
@@ -103,7 +111,7 @@ header {
 
 .navbar__item--active::after {
     background: linear-gradient(to right, var(--gradient-color-left), var(--gradient-color-right));
-    border-radius: 20px;
+    border-radius: 30px;
     box-shadow: 0px 0px 3px var(--divider-color-dark);
     content: '';
     display: block;
@@ -118,4 +126,156 @@ header {
 
 .navbar__item--active .navbar__link:hover::after {
     background: none;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+.nav-toggle-label {
+    display: none;
+}
+
+
+@media (max-width: 1400px) {
+    header {
+        height: 120px;
+    }
+
+    .navbar__link::after {
+        transform: translate(-24%, -25%);
+        width: 210px;
+
+    }
+
+    .navbar__item--active::after {
+        transform: translate(-24%, -25%);
+        width: 210px;
+    }
+
+    .navbar {
+        margin-bottom: 10vh;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    header {
+        height: 100px;
+    }
+
+    .navbar__link::after,
+    .navbar__item--active::after {
+        transform: translate(-22%, -25%);
+        width: 200px;
+
+    }
+
+    .navbar {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo {
+        display: none;
+    }
+
+    nav {
+        border: none;
+        box-shadow: 0px 0px 2px #080808;
+        height: 100vh;
+        position: absolute;
+        transform-origin: left;
+        transform: scale(0, 1);
+        transition: transform 0.2s ease-in-out;
+        width: 400px;
+    }
+
+    .navbar {
+        margin-top: 60px;
+    }
+
+    .navbar__item {
+        font-size: 18px;
+        margin-top: 60px;
+    }
+
+    .navbar__link::after,
+    .navbar__item--active::after {
+        border-radius: 0;
+        height: 70px;
+        transform: translate(-34.5%, -28%);
+        width: 400px;
+    }
+
+    .nav-toggle:checked ~ nav {
+        transform: scale(1, 1);
+    }
+
+    .nav-toggle:checked ~ label {
+        transform: translateX(300px);
+    }
+
+    .nav-toggle-label {
+        display: block;
+        height: 25px;
+        left: 40px;
+        position: absolute;
+        top: 30px;
+        transition: transform 0.2s ease-in-out;
+        width: 2em;
+    }
+
+    .nav-toggle-label:hover {
+        cursor: pointer;
+    }
+
+    .nav-toggle-label span {
+        position: relative;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        background: white;
+        border-radius: 3px;
+        display: block;
+        height: 2px;
+        width: 2em;
+    }
+
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        content: "";
+        position: absolute;
+    }
+
+    .nav-toggle-label span::before {
+        top: 20px;
+    }
+
+    .nav-toggle-label span::after {
+        top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        width: 100vw;
+    }
+
+    .nav-toggle:checked ~ label {
+        transform: translateX(75vw);
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .navbar__item {
+        margin-top: 0;
+    }
+
+    .nav-toggle:checked ~ label {
+        transform: translateX(80vw);
+    }
 }
