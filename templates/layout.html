@@ -8,22 +8,16 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-
         <script src="https://kit.fontawesome.com/ae0ed70008.js" crossorigin="anonymous"></script>
-
         <link href="/static/styles.css" rel="stylesheet">
-        
         <title>{% block title %}{% endblock %}</title>
-
     </head>
 
     <body>
-
         <div class="wrapper">
-
             <input type="checkbox" id="nav-toggle" class="nav-toggle">
             <div class="logo">
-                Home budget
+                Ho<span class="logo__color--purple">m</span><span class="logo__color--blue">e</span> budget
             </div>
             <nav>
                 <div class="navbar">
@@ -40,19 +34,26 @@
                         <li class="navbar__item">
                             <a class="navbar__link" href="#"><i class="fa-solid fa-gear"></i>Settings</a>
                         </li>
+                        <li class="navbar__item">
+                            <a class="navbar__link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
             <label for="nav-toggle" class="nav-toggle-label">
                 <span></span>
             </label>
-    
            <header>
-               
+               <h1>{% block heading %}{% endblock %}</h1>
+               <div class="header__icons">
+                    <a class="header__link" href="#"><i class="fa-solid fa-money-bills"></i></a>
+                    <a class="header__link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+               </div>
            </header> 
-
+           <main>
+                {% block content %}{% endblock %}
+           </main>
         </div>
 
     </body>
-
 </html>
