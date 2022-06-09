@@ -102,7 +102,7 @@ nav {
     left: 20px;
     position: absolute;
     top: 0;
-    transform: translate(-25%, -25%);
+    transform: translate(-25%, -27%);
     transition: background-color 0.25s ease-out;
     width: 220px;
     z-index: -1;
@@ -280,6 +280,7 @@ main {
     color: white;
     cursor: pointer;
     max-width: 50%;
+    padding: 0;
     position: relative;
 }
 
@@ -319,7 +320,7 @@ main {
 
     .navbar__link::after,
     .navbar__link--active::after {
-        transform: translate(-22%, -25%);
+        transform: translate(-22%, -27%);
         width: 200px;
     }
 
@@ -369,7 +370,7 @@ main {
     .navbar__link--active::after {
         border-radius: 0;
         height: 70px;
-        transform: translate(-34.5%, -28%);
+        transform: translate(-34.5%, -31%);
         width: 400px;
     }
 
