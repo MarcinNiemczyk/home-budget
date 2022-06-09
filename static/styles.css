@@ -166,12 +166,30 @@ header h1 {
     color: white;
 }
 
+.alert {
+    align-items: center;
+    background-color: #5bc0de;
+    box-shadow: 0px 1px 2px #080808;
+    display: flex;
+    height: 60px;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.alert--error {
+    background-color: #d9534f;
+}
+
+.alert--success {
+    background-color: #5cb85c;
+}
+
 main {
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 20px;
 }
 
 .login {

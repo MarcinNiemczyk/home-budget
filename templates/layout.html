@@ -47,10 +47,32 @@
                <h1>{% block heading %}{% endblock %}</h1>
                <div class="header__icons">
                     <a class="header__link" href="#"><i class="fa-solid fa-money-bills"></i></a>
-                    <a class="header__link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                    <a class="header__link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
                </div>
            </header> 
            <main>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+
+                    {% if messages %} 
+                        {% for category, message in messages %}
+                        
+                            {% if category == 'error' %}
+                                <div class="alert alert--error">
+                                    {{ message }}
+                                </div>
+                            {% else %} 
+                                <div class="alert alert--success">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+
+                        {% endfor %} 
+                    {% endif %} 
+                {% endwith %}
+
+            
+
+
                 {% block content %}{% endblock %}
            </main>
         </div>
