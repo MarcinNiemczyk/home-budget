@@ -167,9 +167,138 @@ header h1 {
 }
 
 main {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     padding: 20px;
 }
 
+.login {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.login__head {
+    border: solid 2px rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    height: 72px;
+    margin: 70px;
+    overflow: hidden;
+    position: relative;
+    width: 72px;
+}
+
+.login__head::before {
+    background-color: rgba(255, 255, 255, 0.2);
+    bottom: 0;
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 24px;
+    left: 2px;
+    position: absolute;
+    width: 64px;
+}
+
+.login__head::after {
+    background-color: rgba(255, 255, 255, 0.2);
+    bottom: 45%;
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 24px;
+    left: 32%;
+    position: absolute;
+    width: 24px;
+}
+
+
+.login__item {
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.login__input,
+.login__button {
+    border: none;
+    border-radius: 30px;
+    color: #080808;
+    font-size: 24px;
+    height: 60px;
+    overflow: hidden;
+    padding: 20px;
+    width: 100%;
+}
+
+.login__input:hover {
+    box-shadow: 0px 0px 3px white;
+}
+
+.login__input:focus,
+.login__button:focus {
+    outline: none;
+    box-shadow: 0px 0px 3px white;
+}
+
+.login__item label {
+    color: rgba(130, 130, 130, 0.4);
+    cursor: text;
+    font-size: 22px;
+    left: 20px;
+    opacity: 1;
+    position: absolute;
+    top: 15px;
+    transition: 0.1s linear;
+}
+
+.login__input:hover + label,
+.login__item label:hover {
+    transform: translate(30px);
+    opacity: 0.3;
+}
+
+.login__input:focus + label,
+.login__input:not(:placeholder-shown) + label {
+    opacity: 0;
+    transform: translate(220px);
+}
+
+.login__redirect {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    margin-bottom: 30px;
+    margin-top: -30px;
+}
+
+.login__button {
+    background: linear-gradient(to right, var(--gradient-color-purple), var(--gradient-color-blue));
+    box-shadow: 0px 0px 5px black;
+    color: white;
+    cursor: pointer;
+    max-width: 50%;
+    position: relative;
+}
+
+.login__button::after {
+    background-color: rgba(255, 255, 255, 0.3);
+    content: "";
+    display: block;
+    height: 80px;
+    left: -80px;
+    position: absolute;
+    top: -10px;
+    transform: skewX(-15deg);
+    transition: transform 0.1s linear;
+    width: 70px;
+}
+
+.login__button:hover::after {
+    transform: skewX(-15deg) translate(250px);
+}
 
 @media (max-width: 1400px) {
     .navbar {
@@ -219,6 +348,7 @@ main {
         transform: scale(0, 1);
         transition: transform 0.2s ease-in-out;
         width: 400px;
+        z-index: 1;
     }
 
     .navbar {
@@ -259,6 +389,7 @@ main {
         top: 30px;
         transition: transform 0.2s ease-in-out;
         width: 2em;
+        z-index: 2;
     }
 
     .nav-toggle-label:hover {

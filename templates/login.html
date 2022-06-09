@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+
+{% block content %} 
+    <div class="login__head"></div>
+    <form action="/login" autocomplete="off" class="login" method="post">
+        <div class="login__item">
+            <input autofocus class="login__input" id="username" name="username" placeholder=" " type="text">
+            <label for="username">Username</label>
+        </div>
+        <div class="login__item">
+            <input class="login__input" id="password" name="password" placeholder=" " type="password">
+            <label for="password">Password</label>
+        </div>
+        <a class="login__redirect" href="/register">Create new account</a>
+        <button class="login__button" type="submit">Log In</button>
+    </form>
+{% endblock %}
