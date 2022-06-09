@@ -19,7 +19,9 @@ body {
 }
 
 .wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
     height: 100vh;
 }
 
@@ -45,8 +47,10 @@ nav {
     border-right: 2px groove var(--divider-color-dark);
     box-shadow: 2px 0px var(--divider-color-light);
     display: flex;
+    grid-row-start: 1;
+    grid-row-end: -1;
     justify-content: center;
-    width: 280px;
+    width: 250px;
 }
 
 .navbar {
@@ -162,6 +166,10 @@ header h1 {
     color: white;
 }
 
+main {
+    padding: 20px;
+}
+
 
 @media (max-width: 1400px) {
     .navbar {
@@ -193,6 +201,11 @@ header h1 {
 }
 
 @media (max-width: 992px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
     .logo {
         display: none;
     }
