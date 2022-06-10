@@ -33,11 +33,16 @@ body {
     top: 50px;
 }
 
-.logo__color--purple {
+.logo__link {
+    text-decoration: none;
+    color: white;
+}
+
+.logo__link--purple {
     color: var(--gradient-color-purple);
 }
 
-.logo__color--blue {
+.logo__link--blue {
     color: var(--gradient-color-blue);
 }
 
