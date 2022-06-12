@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block heading %}
+    Settings
+{% endblock %}
+
+{% block content %} 
+    <div class="settings">
+        <a class="settings__password" href="#">
+            <div class="settings__container">
+                <i class="settings__icon fa-solid fa-lock"></i>
+                <p>Change Password</p>
+            </div>
+
+        </a>
+        <a class="settings__delete" href="#">
+            <div class="settings__container">
+                <i class="settings__icon fa-regular fa-circle-xmark"></i>
+                <p>Remove Account</p>
+            </div>
+        </a>
+    </div>
+{% endblock %}

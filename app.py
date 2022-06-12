@@ -148,3 +148,16 @@ def logout():
 
     # Redirect user to home page  
     return redirect('/')
+
+
+@app.route('/settings')
+def settings():
+    """Show settings menu"""
+
+    # Ensure user is logged in
+    if not 'user_id' in session:
+        # Redirect not logged user to login form
+        return redirect('/login')
+
+    return render_template('settings.html')
+
