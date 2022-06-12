@@ -239,3 +239,10 @@ def remove():
         return redirect('/login')
 
     return render_template('remove.html')
+
+@app.route('/currency')
+def currency():
+    """Change displaying currency on page"""
+
+    flash("This feature is currently unavailable", category='error')
+    return redirect('/')
