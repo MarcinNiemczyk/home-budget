@@ -86,8 +86,8 @@ def register():
     if request.method == 'POST':
         # Get user data from submitted form
         username = request.form.get('username')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
 
         # Ensure username length is between 3 and 20 characters
         if len(username) < 3:
@@ -98,15 +98,15 @@ def register():
             return render_template('register.html')
 
         # Ensure entered passwords are matching
-        if password1 != password2:
-            flash("Passwords don't match", category='error')
+        if password != confirm_password:
+            flash("Passwords are different", category='error')
             return render_template('register.html')
 
         # Ensure password is between 6 and 50 characters
-        if len(password1) < 6:
+        if len(password) < 6:
             flash("Password must be at least 6 characters", category='error')
             return render_template('register.html')
-        if len(password1) > 50:
+        if len(password) > 50:
             flash("Password is too long", category='error')
             return render_template('register.html')
 
@@ -119,10 +119,10 @@ def register():
             return render_template('register.html')
 
         # Generate password hash
-        password = generate_password_hash(password1, method='sha256')
+        hash = generate_password_hash(password, method='sha256')
 
         # Create user model
-        user = User(username=username, password=password)
+        user = User(username=username, password=hash)
 
         # Add user to database
         db.session.add(user)
@@ -199,7 +199,7 @@ def password():
             return render_template('password.html')
    
         # Update password in database
-        user.password = generate_password_hash(new_password)
+        user.password = generate_password_hash(new_password, method='sha256')
         db.session.commit()
 
         # Redirect user back to settings

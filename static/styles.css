@@ -201,7 +201,7 @@ main {
     justify-content: flex-start;
 }
 
-.login {
+form {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -209,7 +209,7 @@ main {
     margin-bottom: 50px;
 }
 
-.login__head {
+.form__head {
     border: solid 2px rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     height: 72px;
@@ -219,7 +219,7 @@ main {
     width: 72px;
 }
 
-.login__head::before {
+.form__head::before {
     background-color: rgba(255, 255, 255, 0.2);
     bottom: 0;
     border-radius: 50%;
@@ -231,7 +231,7 @@ main {
     width: 64px;
 }
 
-.login__head::after {
+.form__head::after {
     background-color: rgba(255, 255, 255, 0.2);
     bottom: 45%;
     border-radius: 50%;
@@ -244,13 +244,13 @@ main {
 }
 
 
-.login__item {
+.form__item {
     margin-bottom: 50px;
     position: relative;
 }
 
-.login__input,
-.login__button {
+.form__input,
+.form__button {
     border: none;
     border-radius: 30px;
     color: rgb(var(--color-black));
@@ -261,17 +261,17 @@ main {
     width: 100%;
 }
 
-.login__input:hover {
+.form__input:hover {
     box-shadow: 0px 0px 3px white;
 }
 
-.login__input:focus,
-.login__button:focus {
+.form__input:focus,
+.form__button:focus {
     outline: none;
     box-shadow: 0px 0px 3px white;
 }
 
-.login__item label {
+.form__item label {
     color: rgba(130, 130, 130, 0.4);
     cursor: text;
     font-size: 22px;
@@ -282,26 +282,26 @@ main {
     transition: 0.1s linear;
 }
 
-.login__input:hover + label,
-.login__item label:hover {
+.form__input:hover + label,
+.form__item label:hover {
     transform: translate(30px);
     opacity: 0.3;
 }
 
-.login__input:focus + label,
-.login__input:not(:placeholder-shown) + label {
+.form__input:focus + label,
+.form__input:not(:placeholder-shown) + label {
     opacity: 0;
     transform: translate(220px);
 }
 
-.login__redirect {
+.form__redirect {
     color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
     margin-bottom: 30px;
     margin-top: -30px;
 }
 
-.login__button {
+.form__button {
     background: linear-gradient(to right, rgb(var(--gradient-color-purple)), rgb(var(--gradient-color-blue)));
     box-shadow: 0px 0px 5px black;
     color: white;
@@ -311,7 +311,7 @@ main {
     position: relative;
 }
 
-.login__button::after {
+.form__button::after {
     background-color: rgba(255, 255, 255, 0.3);
     content: "";
     display: block;
@@ -324,7 +324,7 @@ main {
     width: 70px;
 }
 
-.login__button:hover::after {
+.form__button:hover::after {
     transform: skewX(-15deg) translate(250px);
 }
 
