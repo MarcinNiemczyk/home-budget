@@ -234,8 +234,8 @@ def remove():
         db.session.commit()
 
         # Forget session id and redirect user to login form
-        flash("Account has been removed", category='success')
         session.clear()
+        flash("Account has been removed", category='success')
         return redirect('/login')
 
     return render_template('remove.html')
