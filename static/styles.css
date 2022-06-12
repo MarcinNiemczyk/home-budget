@@ -389,6 +389,35 @@ form {
     font-size: 30px;
 }
 
+.remove__heading {
+    color: rgb(217, 83, 79);
+    margin-bottom: 30px;
+}
+
+.remove__button {
+    background-color: rgb(var(--secondary-color));
+    border: none;
+    --button-color: 129, 33, 33;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px rgb(var(--color-black));
+    color: rgb(var(--button-color));
+    font-size: 20px;
+    font-weight: bold;
+    height: 60px;
+    width: 200px;
+}
+
+.remove__button:hover {
+    border: 2px solid rgba(var(--button-color), 0.1);
+    cursor: pointer;
+    color: rgba(var(--button-color), 0.5);
+}
+
+.remove__button:focus {
+    outline: 2px solid rgb(var(--button-color));
+}
+
+
 @media (max-width: 1400px) {
     .navbar {
         margin-bottom: 10vh;
@@ -542,6 +571,10 @@ form {
         height: 120px;
         width: 450px;
     }
+
+    .remove__heading {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 768px) and (orientation: landscape) {
@@ -551,5 +584,11 @@ form {
 
     .nav-toggle:checked ~ label {
         transform: translateX(80vw);
+    }
+}
+
+@media (max-width: 576px) {
+    .remove__heading {
+        font-size: 14px;
     }
 }

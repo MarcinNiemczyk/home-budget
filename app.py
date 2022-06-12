@@ -207,3 +207,35 @@ def password():
         return redirect('/settings')
 
     return render_template('password.html')
+
+@app.route('/remove', methods=['GET', 'POST'])
+def remove():
+    """Remove user account"""
+
+     # Ensure user is logged in
+    if not 'user_id' in session:
+        # Redirect not logged user to login form
+        return redirect('/login')
+
+    if request.method == 'POST':
+        # Get data from submitted form
+        password = request.form.get('password')
+
+        # Query database for logged user
+        user = User.query.filter_by(id=session['user_id']).first()
+
+        # Ensure password is correct
+        if not check_password_hash(user.password, password):
+            flash("Invalid password", category='error')
+            return render_template('remove.html')
+        
+        # Remove user from database
+        User.query.filter_by(id=user.id).delete()
+        db.session.commit()
+
+        # Forget session id and redirect user to login form
+        flash("Account has been removed", category='success')
+        session.clear()
+        return redirect('/login')
+
+    return render_template('remove.html')
