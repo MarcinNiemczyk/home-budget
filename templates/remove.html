@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Remove Account
+{% endblock %}
+
+{% block heading %}
+    Remove Account
+{% endblock %}
+
+{% block content %} 
+    <div class="main--center">
+        <form action="/remove" autocomplete="off" method="post">
+            <h2 class="remove__heading">Your account will be removed permamently!</h2>
+            <div class="form__item">
+                <input class="form__input" id="password" name="password" placeholder=" " type="password">
+                <label for="password">Verify Password</label>
+            </div>
+            <button class="remove__button" type="submit">Remove</button>
+        </form>
+    </div>
+{% endblock %}

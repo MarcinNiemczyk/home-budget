@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block heading %}
+    Settings
+{% endblock %}
+
+{% block content %} 
+    <div class="settings">
+        <a class="button" href="/currency">
+            <div class="button__container">
+                <i class="button__icon fa-solid fa-money-bills"></i>
+                <p>Currency Settings</p>
+            </div>
+        </a>
+        <a class="button" href="/password">
+            <div class="button__container">
+                <i class="button__icon fa-solid fa-lock"></i>
+                <p>Change Password</p>
+            </div>
+        </a>
+        <a class="button button--red" href="/remove">
+            <div class="button__container">
+                <i class="button__icon fa-regular fa-circle-xmark"></i>
+                <p>Remove Account</p>
+            </div>
+        </a>
+    </div>
+{% endblock %}
