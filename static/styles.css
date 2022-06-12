@@ -1,11 +1,12 @@
 :root {
-    --background-color: #0D0C0F;
-    --secondary-color: #121216;
+    --background-color: 13, 12, 15;
+    --secondary-color: 18, 18, 22;
     --button-color: 255, 255, 255;
-    --divider-color-dark: #050505;
-    --divider-color-light: #1b1b1b;
-    --gradient-color-purple: #7641E9;
-    --gradient-color-blue: #4968EB;
+    --divider-color-dark: 5, 5, 5;
+    --divider-color-light: 27, 27, 27;
+    --gradient-color-purple: 118, 65, 233;
+    --gradient-color-blue: 73, 104, 235;
+    --color-black: 8, 8, 8
 }
 
 * {
@@ -15,7 +16,7 @@
 }
 
 body {
-    background-color: var(--background-color);
+    background-color: rgb(var(--background-color));
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
@@ -42,18 +43,18 @@ body {
 }
 
 .logo__link--purple {
-    color: var(--gradient-color-purple);
+    color: rgb(var(--gradient-color-purple));
 }
 
 .logo__link--blue {
-    color: var(--gradient-color-blue);
+    color: rgb(var(--gradient-color-blue));
 }
 
 nav {
     align-items: center;
-    background-color: #111113;
-    border-right: 2px groove var(--divider-color-dark);
-    box-shadow: 2px 0px var(--divider-color-light);
+    background-color: rgb(17, 17, 19);
+    border-right: 2px groove rgb(var(--divider-color-dark));
+    box-shadow: 2px 0px rgb(var(--divider-color-light));
     display: flex;
     grid-row-start: 1;
     grid-row-end: -1;
@@ -78,7 +79,7 @@ nav {
 }
 
 .navbar__link {
-    color: #8a8a8a;
+    color: rgb(138, 138, 138);
     position: relative;
     text-decoration: none;
     z-index: 1;
@@ -93,8 +94,8 @@ nav {
 }
 
 .navbar__link--active::after {
-    background: linear-gradient(to right, var(--gradient-color-purple), var(--gradient-color-blue));
-    box-shadow: 0px 0px 3px var(--divider-color-dark);
+    background: linear-gradient(to right, rgb(var(--gradient-color-purple)), rgb(var(--gradient-color-blue)));
+    box-shadow: 0px 0px 3px rgb(var(--divider-color-dark));
 }
 
 .navbar__link--active:focus::after {
@@ -142,8 +143,8 @@ nav {
 
 header {
     align-items: flex-end;
-    border-bottom: 2px groove var(--divider-color-dark);
-    box-shadow: 0px 2px var(--divider-color-light);
+    border-bottom: 2px groove rgb(var(--divider-color-dark));
+    box-shadow: 0px 2px rgb(var(--divider-color-light));
     display: flex;
     height: 120px;
     justify-content: space-between;
@@ -166,7 +167,7 @@ header h1 {
 
 .header__link {
     color: #b1b1b1;
-    text-shadow: 2px 2px 2px #080808;
+    text-shadow: 2px 2px 2px rgb(var(--color-black));
     margin: 0 20px;
 }
 
@@ -176,8 +177,8 @@ header h1 {
 
 .alert {
     align-items: center;
-    background-color: #5bc0de;
-    box-shadow: 0px 1px 2px #080808;
+    background-color: rgb(91, 192, 222);
+    box-shadow: 0px 1px 2px rgb(var(--color-black));
     display: flex;
     height: 60px;
     justify-content: center;
@@ -186,11 +187,11 @@ header h1 {
 }
 
 .alert--error {
-    background-color: #d9534f;
+    background-color: rgb(217, 83, 79);
 }
 
 .alert--success {
-    background-color: #5cb85c;
+    background-color: rgb(92, 184, 92);
 }
 
 main {
@@ -252,7 +253,7 @@ main {
 .login__button {
     border: none;
     border-radius: 30px;
-    color: #080808;
+    color: rgb(var(--color-black));
     font-size: 24px;
     height: 60px;
     overflow: hidden;
@@ -301,7 +302,7 @@ main {
 }
 
 .login__button {
-    background: linear-gradient(to right, var(--gradient-color-purple), var(--gradient-color-blue));
+    background: linear-gradient(to right, rgb(var(--gradient-color-purple)), rgb(var(--gradient-color-blue)));
     box-shadow: 0px 0px 5px black;
     color: white;
     cursor: pointer;
@@ -339,7 +340,7 @@ main {
 .settings__password,
 .settings__delete {
     align-items: center;
-    background-color: var(--secondary-color);
+    background-color: rgb(var(--secondary-color));
     border-radius: 5px;
     color: rgb(var(--button-color));
     display: flex;
@@ -420,7 +421,7 @@ main {
 
     nav {
         border: none;
-        box-shadow: 0px 0px 2px #080808;
+        box-shadow: 0px 0px 2px rgb(var(--color-black));
         height: 100vh;
         position: absolute;
         transform-origin: left;
