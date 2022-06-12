@@ -1,3 +1,4 @@
+from unicodedata import category
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -89,10 +90,10 @@ def register():
         password2 = request.form.get('password2')
 
         # Ensure username length is between 3 and 20 characters
-        if len(username) <= 3:
+        if len(username) < 3:
             flash("Username is too short", category='error')
             return render_template('register.html')
-        if len(username) >= 20:
+        if len(username) > 20:
             flash("Username is too long", category='error')
             return render_template('register.html')
 
@@ -102,10 +103,10 @@ def register():
             return render_template('register.html')
 
         # Ensure password is between 6 and 50 characters
-        if len(password1) <= 6:
+        if len(password1) < 6:
             flash("Password must be at least 6 characters", category='error')
             return render_template('register.html')
-        if len(password1) >= 50:
+        if len(password1) > 50:
             flash("Password is too long", category='error')
             return render_template('register.html')
 
@@ -161,3 +162,48 @@ def settings():
 
     return render_template('settings.html')
 
+
+@app.route('/password', methods=['GET', 'POST'])
+def password():
+    """Change user password"""
+
+    # Ensure user is logged in
+    if not 'user_id' in session:
+        # Redirect not logged user to login form
+        return redirect('/login')
+
+    if request.method == 'POST':
+        # Get data from submitted form
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        confirmed_password = request.form.get('confirmed_password')
+
+        # Query database for logged user
+        user = User.query.filter_by(id=session['user_id']).first()
+
+        # Ensure passwords are correct
+        if not check_password_hash(user.password, old_password):
+            flash("Wrong password", category='error')
+            return render_template('password.html')
+        if new_password != confirmed_password:
+            flash("Passwords are different", category='error')
+            return render_template('password.html')
+        if len(new_password) < 6:
+            flash("Password is too short", category='error')
+            return render_template('password.html')
+        if len(new_password) > 50:
+            flash("Password is too long", category='error')
+            return render_template('password.html')
+        if check_password_hash(user.password, new_password):
+            flash("New password must be different", category='error')
+            return render_template('password.html')
+   
+        # Update password in database
+        user.password = generate_password_hash(new_password)
+        db.session.commit()
+
+        # Redirect user back to settings
+        flash("Password has been changed", category='success')
+        return redirect('/settings')
+
+    return render_template('password.html')
