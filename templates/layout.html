@@ -9,41 +9,47 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/ae0ed70008.js" crossorigin="anonymous"></script>
+        <script defer src="/static/script.js"></script>
         <link href="/static/styles.css" rel="stylesheet">
         <title>{% block title %}{% endblock %}</title>
     </head>
 
     <body>
         <div class="wrapper">
-            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <nav>
+                <ul class="navbar">
+                    <div class="navbar__header">
+                        <div class="navbar__logo">
+                            <a class="logo__link" href="/">Ho<span class="logo__link--purple">m</span><span class="logo__link--blue">e</span> budget</a>  
+                        </div>
+                        <div class="navbar__close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+                    <li class="navbar__item">
+                        <a class="navbar__link navbar__link--active" href="#"><i class="fa-solid fa-chart-line"></i>Summary</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="#"><i class="fa-solid fa-list-ul"></i>Transactions</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="#"><i class="fa-regular fa-clock"></i></i>Planned</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="/settings"><i class="fa-solid fa-gear"></i>Settings</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+                    </li>
+                </ul>
+            </nav>
+           <header>
+            <div class="toggle-menu">
+                <div class="toggle-menu__bar"></div>
+            </div>
             <div class="logo">
                 <a class="logo__link" href="/">Ho<span class="logo__link--purple">m</span><span class="logo__link--blue">e</span> budget</a>  
             </div>
-            <nav>
-                <div class="navbar">
-                    <ul class="navbar__list">
-                        <li class="navbar__item">
-                            <a class="navbar__link navbar__link--active" href="#"><i class="fa-solid fa-chart-line"></i>Summary</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="#"><i class="fa-solid fa-list-ul"></i>Transactions</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="#"><i class="fa-regular fa-clock"></i></i>Planned</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="/settings"><i class="fa-solid fa-gear"></i>Settings</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <label for="nav-toggle" class="nav-toggle-label">
-                <span></span>
-            </label>
-           <header>
                <h1>{% block heading %}{% endblock %}</h1>
                <div class="header__icons">
                     <a class="header__link" href="/currency"><i class="fa-solid fa-money-bills"></i></a>
@@ -69,9 +75,6 @@
                         {% endfor %} 
                     {% endif %} 
                 {% endwith %}
-
-            
-
 
                 {% block content %}{% endblock %}
            </main>
