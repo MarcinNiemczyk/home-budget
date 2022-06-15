@@ -2,6 +2,8 @@ from unicodedata import category
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from helpers import login_required
+
 
 # Configure application
 app = Flask(__name__)
@@ -28,13 +30,9 @@ db.create_all()
 db.session.commit()
 
 @app.route('/')
+@login_required
 def index():
     """Display overview of user's monthly expenses"""
-
-    # Ensure user is logged in
-    if not 'user_id' in session:
-        # Redirect not logged user to login form
-        return redirect('/login')
 
     return render_template('layout.html')
 
@@ -152,25 +150,17 @@ def logout():
 
 
 @app.route('/settings')
+@login_required
 def settings():
     """Show settings menu"""
-
-    # Ensure user is logged in
-    if not 'user_id' in session:
-        # Redirect not logged user to login form
-        return redirect('/login')
 
     return render_template('settings.html')
 
 
 @app.route('/password', methods=['GET', 'POST'])
+@login_required
 def password():
     """Change user password"""
-
-    # Ensure user is logged in
-    if not 'user_id' in session:
-        # Redirect not logged user to login form
-        return redirect('/login')
 
     if request.method == 'POST':
         # Get data from submitted form
@@ -208,14 +198,11 @@ def password():
 
     return render_template('password.html')
 
+
 @app.route('/remove', methods=['GET', 'POST'])
+@login_required
 def remove():
     """Remove user account"""
-
-     # Ensure user is logged in
-    if not 'user_id' in session:
-        # Redirect not logged user to login form
-        return redirect('/login')
 
     if request.method == 'POST':
         # Get data from submitted form
@@ -240,7 +227,9 @@ def remove():
 
     return render_template('remove.html')
 
+
 @app.route('/currency')
+@login_required
 def currency():
     """Change displaying currency on page"""
 
