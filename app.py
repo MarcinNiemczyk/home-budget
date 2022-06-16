@@ -235,3 +235,11 @@ def currency():
 
     flash("This feature is currently unavailable", category='error')
     return redirect('/')
+
+
+@app.route('/planning')
+@login_required
+def planning():
+    """Show user planned transactions and allow him to modify data."""
+
+    return render_template('planning.html')

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Planning
+{% endblock %}
+
+{% block heading %}
+    Planning
+{% endblock %}
+
+{% block content %} 
+    <div class="planning">
+        <div class="planning__menu">
+            <button class="planning__new form__button">Create New</button>
+
+
+
+            <form action="#">
+                <div class="select">
+                    <div class="select__options">
+                        <div class="select__option">
+                            <input type="radio" class="select__radio" id="all" name="all">
+                            <label for="all">All</label>
+                        </div>
+                        <div class="select__option">
+                            <input type="radio" class="select__radio" id="income" name="income">
+                            <label for="income">Income</label>
+                        </div>
+                        <div class="select__option">
+                            <input type="radio" class="select__radio" id="outcome" name="outcome">
+                            <label for="outcome">Outcome</label>
+                        </div>
+                    </div>
+
+                    <div class="select__selected">
+                        Filter
+                    </div>
+
+                </div>
+            </form>
+
+
+
+
+
+            <form class="planning__date" action="#">
+                <select name="months">
+                    <option value="months">Month</option>
+                    <option value="test">Test</option>
+                    <option value="test">Test</option>
+                    <option value="test">Test</option>
+                </select>
+
+                <select name="year">
+                    <option value="year">Year</option>
+                    <option value="test">Test</option>
+                </select>
+            </form>
+            <input type="search" class="planning__search" name="search" value="Search">
+        </div>
+
+        <div class="planning__table">
+                
+        </div>
+    </div>
+{% endblock %}
