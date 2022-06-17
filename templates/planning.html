@@ -15,33 +15,15 @@
 
 
 
-            <form action="#">
-                <div class="select">
-                    <div class="select__options">
-                        <div class="select__option">
-                            <input type="radio" class="select__radio" id="all" name="all">
-                            <label for="all">All</label>
-                        </div>
-                        <div class="select__option">
-                            <input type="radio" class="select__radio" id="income" name="income">
-                            <label for="income">Income</label>
-                        </div>
-                        <div class="select__option">
-                            <input type="radio" class="select__radio" id="outcome" name="outcome">
-                            <label for="outcome">Outcome</label>
-                        </div>
-                    </div>
-
-                    <div class="select__selected">
-                        Filter
-                    </div>
-
+            <div class="select">
+                <div class="select__options">
+                    <div class="select__option active">All</div>
+                    <div class="select__option">Income</div>
+                    <div class="select__option">Outcome</div>
                 </div>
-            </form>
-
-
-
-
+                <div class="select__selected">All</div>
+                <div class="select__head">Filter</div>
+            </div>
 
             <form class="planning__date" action="#">
                 <select name="months">
@@ -59,8 +41,7 @@
             <input type="search" class="planning__search" name="search" value="Search">
         </div>
 
-        <div class="planning__table">
-                
+        <div class="planning__table"> 
         </div>
     </div>
 {% endblock %}

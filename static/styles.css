@@ -437,7 +437,7 @@ form {
 }
 
 .planning {
-    background-color: rgb(var(--secondary-color));
+    /* background-color: rgb(var(--secondary-color)); */
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -448,7 +448,7 @@ form {
 
 .planning__menu {
     align-items: center;
-    background-color: rgb(var(--secondary-color));
+    /* background-color: rgb(var(--secondary-color)); */
     display: flex;
     height: 100px;
     justify-content: space-around;
@@ -468,27 +468,62 @@ form {
 .select {
     display: flex;
     flex-direction: column-reverse;
-    width: 120px;
+    font-size: 14px;
+    margin-top: 10px;
+    position: relative;
+    text-transform: uppercase;
+    width: 150px;
+}
+
+.select__head {
+    color: rgba(120, 120, 120, 0.2);
+    left: 0;
+    position: absolute;
+    text-transform: none;
+    top: -25px;
 }
 
 .select__options {
-    color: white;
+    color: rgb(150, 150, 150);
+    left: 0;
     max-height: 0;
-    opacity: 0;
     overflow: hidden;
+    position: absolute;
+    top: 50px;
     transition: 0.4s;
     width: 100%;
 }
 
 .select__options.active {
-    max-height: 240px;
-    opacity: 1;
-    overflow-y: scroll;
+    max-height: 200px;
 }
 
+.select__options.active + .select__selected::after {
+    transform: rotateX(180deg);
+}
+
+.select__option {
+    background-color: rgb(var(--secondary-color));
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    padding: 15px;
+}
+
+.select__option:hover {
+    background-color: rgb(var(--color-black));
+    color: white;
+}
+
+.select__option.active {
+    background-color: rgb(var(--color-black));
+    color: rgb(100, 100, 100);
+    font-weight: bold;
+}
 
 .select__selected {
     border-bottom: 1px solid rgb(170, 170, 170);
+    cursor: pointer;
     padding-bottom: 8px;
     position: relative;
 }
@@ -500,11 +535,12 @@ form {
     position: absolute;
     right: 10px;
     top: 5px;
+    transition: 0.5s;
 }
 
 
 .planning__table {
-    background-color: rgb(var(--nav-color));
+    /* background-color: rgb(var(--nav-color)); */
     height: 100%;
     width: 100%;
 }
