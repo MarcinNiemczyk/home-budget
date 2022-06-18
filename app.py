@@ -237,9 +237,9 @@ def currency():
     return redirect('/')
 
 
-@app.route('/planning')
+@app.route('/transactions')
 @login_required
-def planning():
-    """Show user planned transactions and allow him to modify data."""
+def transactions():
+    """Show usertransactions and allow him to modify data."""
 
-    return render_template('planning.html')
+    return render_template('transactions.html')
