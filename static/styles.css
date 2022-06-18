@@ -180,22 +180,22 @@ nav {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.navbar__link--active {
+.navbar__link.active {
     color: white;
 }
 
-.navbar__link--active::after {
+.navbar__link.active::after {
     background: linear-gradient(to right, rgb(var(--gradient-color-purple)), rgb(var(--gradient-color-blue)));
     box-shadow: 0px 0px 3px rgb(var(--divider-color-dark));
 }
 
-.navbar__link--active:focus::after {
+.navbar__link.active:focus::after {
     background: linear-gradient(to right, rgba(var(--gradient-color-purple), 0.3), rgb(var(--gradient-color-blue), 0.3));
     background-color: rgb(var(--color-black));
 }
 
 .navbar__link::after,
-.navbar__link--active::after {
+.navbar__link.active::after {
     border-radius: 30px;
     content: '';
     display: block;
@@ -812,7 +812,7 @@ form {
     }
 
     .navbar__link::after,
-    .navbar__link--active::after {
+    .navbar__link.active::after {
         border-radius: 0;
         height: 80%;
         left: 0;

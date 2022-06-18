@@ -157,7 +157,7 @@ def settings():
     return render_template('settings.html')
 
 
-@app.route('/password', methods=['GET', 'POST'])
+@app.route('/settings/change-password', methods=['GET', 'POST'])
 @login_required
 def password():
     """Change user password"""
@@ -196,10 +196,10 @@ def password():
         flash("Password has been changed", category='success')
         return redirect('/settings')
 
-    return render_template('password.html')
+    return render_template('change-password.html')
 
 
-@app.route('/remove', methods=['GET', 'POST'])
+@app.route('/settings/remove-account', methods=['GET', 'POST'])
 @login_required
 def remove():
     """Remove user account"""
@@ -225,10 +225,10 @@ def remove():
         flash("Account has been removed", category='success')
         return redirect('/login')
 
-    return render_template('remove.html')
+    return render_template('remove-account.html')
 
 
-@app.route('/currency')
+@app.route('/settings/currency')
 @login_required
 def currency():
     """Change displaying currency on page"""
