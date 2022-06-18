@@ -560,6 +560,32 @@ form {
     width: 100%;
 }
 
+.search {
+    position: relative;
+}
+
+.search__icon {
+    color: rgba(255, 255, 255, 0.1);
+    left: 12px;
+    position: absolute;
+    top: 12px;
+}
+
+.search__input {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    padding: 10px 20px 8px 37px;
+}
+
+.search__input:focus {
+    color: white;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
 @media (max-width: 1400px) {
     .navbar {
         margin-bottom: 10vh;
