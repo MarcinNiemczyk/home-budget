@@ -93,7 +93,7 @@ header h1 {
 }
 
 nav {
-    align-items: center;
+    align-items: flex-start;
     background-color: rgb(var(--nav-color));
     border-right: 2px groove rgb(var(--divider-color-dark));
     box-shadow: 2px 0px rgb(var(--divider-color-light));
@@ -109,7 +109,7 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 20vh;
+    margin-top: 20vh;
     width: 100%;
 }
 
@@ -619,20 +619,9 @@ form {
     background-color: rgb(var(--secondary-color));
 }
 
-
-@media (max-width: 1400px) {
-    .navbar {
-        margin-bottom: 10vh;
-    }
-}
-
 @media (max-width: 1200px) {
     header {
         height: 100px;
-    }
-    
-    .navbar {
-        margin-bottom: 0;
     }
 }
 
@@ -720,6 +709,10 @@ form {
 
     nav.active {
         transform:  translate3d(0, 0, 0);
+    }
+
+    .navbar {
+        margin-top: 0;
     }
 
     .navbar__header {
