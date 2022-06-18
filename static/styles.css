@@ -437,7 +437,7 @@ form {
 }
 
 .planning {
-    /* background-color: rgb(var(--secondary-color)); */
+    background-color: rgb(var(--secondary-color));
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -448,7 +448,7 @@ form {
 
 .planning__menu {
     align-items: center;
-    /* background-color: rgb(var(--secondary-color)); */
+    background-color: rgb(var(--secondary-color));
     display: flex;
     height: 100px;
     justify-content: space-around;
@@ -495,11 +495,22 @@ form {
 }
 
 .select__options.active {
-    max-height: 200px;
+    max-height: 170px;
 }
 
 .select__options.active + .select__selected::after {
     transform: rotateX(180deg);
+}
+
+.select__options::-webkit-scrollbar {
+    width: 8px;
+    background: rgb(13, 20, 31);
+    border-radius: 15px;
+}
+
+.select__options::-webkit-scrollbar-thumb {
+    background: rgb(82, 88, 97);
+    border-radius: 15px;
 }
 
 .select__option {
@@ -511,7 +522,7 @@ form {
 }
 
 .select__option:hover {
-    background-color: rgb(var(--color-black));
+    background-color: rgba(0, 0, 0, 0.2);
     color: white;
 }
 
@@ -538,6 +549,10 @@ form {
     transition: 0.5s;
 }
 
+.months,
+.years {
+    overflow-y: scroll;
+}
 
 .planning__table {
     /* background-color: rgb(var(--nav-color)); */
