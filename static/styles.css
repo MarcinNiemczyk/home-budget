@@ -1,13 +1,15 @@
 :root {
     --background-color: 13, 12, 15;
-    --secondary-color: 18, 18, 22;
-    --nav-color: 17, 17, 19;
     --button-color: 255, 255, 255;
+    --color-black: 8, 8, 8;
     --divider-color-dark: 5, 5, 5;
     --divider-color-light: 27, 27, 27;
-    --gradient-color-purple: 118, 65, 233;
     --gradient-color-blue: 73, 104, 235;
-    --color-black: 8, 8, 8
+    --gradient-color-purple: 118, 65, 233;
+    --nav-color: 17, 17, 19;
+    --scrollbar-color-bg: 13, 20, 31;
+    --scrollbar-color-thumb: 82, 88, 97;
+    --secondary-color: 18, 18, 22;
 }
 
 * {
@@ -24,11 +26,22 @@ body {
     font-size: 16px;
 }
 
+body::-webkit-scrollbar {
+    background-color: rgb(var(--scrollbar-color-bg));
+    border-radius: 15px;
+    width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--scrollbar-color-thumb));
+    border-radius: 15px;
+}
+
 .wrapper {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
-    height: 100vh;
+    min-height: 100vh;
     position: relative;
     width: 100vw;
 }
@@ -503,12 +516,12 @@ form {
 
 .select__options::-webkit-scrollbar {
     width: 8px;
-    background: rgb(13, 20, 31);
+    background-color: rgb(var(--scrollbar-color-bg));
     border-radius: 15px;
 }
 
 .select__options::-webkit-scrollbar-thumb {
-    background: rgb(82, 88, 97);
+    background-color: rgb(var(--scrollbar-color-thumb));
     border-radius: 15px;
 }
 
