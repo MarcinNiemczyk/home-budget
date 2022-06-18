@@ -437,7 +437,6 @@ form {
 }
 
 .planning {
-    background-color: rgb(var(--secondary-color));
     border-radius: 5px;
     display: flex;
     flex-direction: column;
@@ -448,7 +447,6 @@ form {
 
 .planning__menu {
     align-items: center;
-    background-color: rgb(var(--secondary-color));
     display: flex;
     height: 100px;
     justify-content: space-around;
@@ -484,6 +482,7 @@ form {
 }
 
 .select__options {
+    background-color: rgb(var(--secondary-color));
     color: rgb(150, 150, 150);
     left: 0;
     max-height: 0;
@@ -514,7 +513,7 @@ form {
 }
 
 .select__option {
-    background-color: rgb(var(--secondary-color));
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 5px;
@@ -528,6 +527,7 @@ form {
 
 .select__option.active {
     background-color: rgb(var(--color-black));
+    border: none;
     color: rgb(100, 100, 100);
     font-weight: bold;
 }
@@ -554,12 +554,6 @@ form {
     overflow-y: scroll;
 }
 
-.planning__table {
-    /* background-color: rgb(var(--nav-color)); */
-    height: 100%;
-    width: 100%;
-}
-
 .search {
     position: relative;
 }
@@ -583,6 +577,46 @@ form {
 .search__input:focus {
     color: white;
     outline: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transactions-table__container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.transactions-table {
+    border-collapse: collapse;
+    border-radius: 10px 10px 0 0;
+    font-size: 16px;
+    min-width: 600px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.transactions-table thead tr  {
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.transactions-table th,
+.transactions-table td {
+    padding: 12px 15px;
+}
+
+.transactions-table th:nth-of-type(2) {
+    width: 30%;
+}
+
+.transactions-table tbody tr {
+    color: rgb(180, 180, 180);
+}
+
+.transactions-table tbody tr:nth-of-type(odd) {
+    background-color: rgb(var(--secondary-color));
 }
 
 
