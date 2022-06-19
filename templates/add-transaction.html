@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% set active_page = "/transactions" %}
+
+{% block title %}
+    Add transaction
+{% endblock %}
+
+
+{% block content %} 
+    <div class="main--center">
+        <form action="/transactions/add" autocomplete="off" method="post">
+            <div class="form__item">
+                <input class="form__input" id="date" name="date" placeholder=" " type="date">
+                <label for="date">Date</label>
+            </div>
+
+            <div class="form__radio-container">
+                <input type="radio" name="type" id="outcome" class="form__radio" checked="checked" value="outcome">
+                <label for="outcome">Outcome</label>
+                <input type="radio" name="type" id="income" class="form__radio" value="income">
+                <label for="income">Income</label>
+            </div>
+
+            <div class="form__item">
+                <input class="form__input" id="name" name="name" placeholder=" " type="text">
+                <label for="name">Name</label>
+            </div>
+
+
+    
+            <div class="form__item">
+                <input class="form__input" id="amount" name="amount" placeholder=" " type="text">
+                <label for="amount">Amount</label>
+            </div>
+    
+            <div class="select category-wrapper">
+                <div class="select__options category">
+                    <div class="select__option category__option">
+                        <input type="radio" class="radio" id="category1" name="category__radio" value="category1" checked="checked">
+                        <label for="category1" class="active">Category1</label>
+                    </div>
+                    <div class="select__option category__option">
+                        <input type="radio" class="radio" id="category2" name="category__radio" value="category2">
+                        <label for="category2">Category2</label>
+                    </div>
+                    <div class="select__option category__option">
+                        <input type="radio" class="radio" id="category3" name="category__radio" value="category3">
+                        <label for="category3">Category3</label>
+                    </div>
+                </div>
+                <div class="select__selected category__selected">Category1</div>
+                <div class="select__head">Category</div>
+            </div>
+    
+            <button class="form__button" type="submit">Add</button>
+        </form>
+    </div>
+{% endblock %}

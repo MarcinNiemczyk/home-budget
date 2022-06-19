@@ -370,6 +370,56 @@ form {
     transform: skewX(-15deg) translate(300px);
 }
 
+.form__radio-container {
+    align-items: flex-start;
+    display: flex;
+    height: 60px;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    width: 280px;
+}
+
+.form__radio {
+    display: none;
+}
+
+.form__radio-container label {
+    background-color: rgb(var(--secondary-color));
+    border-radius: 5px;
+    color: rgb(100, 100, 100);
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-left: 40px;
+    position: relative;
+    text-align: right;
+}
+
+.form__radio-container label:hover {
+    background-color: rgba(var(--color-black), 0.2);
+    box-shadow: 0 0 3px rgb(var(--color-black));
+    cursor: pointer;
+}
+
+.form__radio-container label::before {
+    border: 2px solid rgb(100, 100, 100);
+    border-radius: 50%;
+    content: "";
+    height: 15px;
+    left: 10px;
+    position: absolute;
+    top: 13px;
+    width: 15px;
+}
+
+.form__radio:checked + label {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.form__radio:checked + label::before {
+    background-color: white;
+}
+
 .settings {
     align-items: center;
     display: flex;
@@ -466,10 +516,6 @@ form {
     width: 100%;
 }
 
-.transactions__menu form {
-    margin: 0;
-}
-
 .transactions__new {
     font-size: 20px;
     max-width: 180px;
@@ -504,6 +550,7 @@ form {
     top: 50px;
     transition: 0.4s;
     width: 100%;
+    z-index: 1;
 }
 
 .select__options.active {
@@ -525,20 +572,26 @@ form {
     border-radius: 15px;
 }
 
-.select__option {
+.select .radio {
+    display: none;
+}
+
+.select__option label {
     border-bottom: 2px solid rgba(255, 255, 255, 0.05);
     border-radius: 5px;
     cursor: pointer;
+    display: block;
     margin-bottom: 5px;
     padding: 15px;
+    width: 100%;
 }
 
-.select__option:hover {
+.select__option label:hover {
     background-color: rgba(0, 0, 0, 0.2);
     color: white;
 }
 
-.select__option.active {
+.select__option label.active {
     background-color: rgb(var(--color-black));
     border: none;
     color: rgb(100, 100, 100);
@@ -563,8 +616,14 @@ form {
 }
 
 .months,
-.years {
+.years,
+.category {
     overflow-y: scroll;
+}
+
+.category-wrapper {
+    margin-bottom: 50px;
+    width: 200px;
 }
 
 .search {
@@ -636,9 +695,9 @@ form {
     .select {
         width: 100px;
     }
-    
-    .select__option {
-        padding-left: 10px;
+
+    .category-wrapper {
+        width: 200px;
     }
 
     .search__input {
@@ -886,9 +945,13 @@ form {
         width: 50%;
     }
 
+    .category-wrapper {
+        margin-bottom: 50px;
+        width: 70%;
+    }
+
     .select__options {
         font-size: 16px;
-        z-index: 1;
     }
 
     .select__selected {

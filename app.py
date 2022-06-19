@@ -1,8 +1,13 @@
-from unicodedata import category
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import login_required
+
+
+CATEGORIES = {
+    'outcome': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
+    'income': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
+}
 
 
 # Configure application
@@ -243,3 +248,11 @@ def transactions():
     """Show usertransactions and allow him to modify data."""
 
     return render_template('transactions.html')
+
+
+@app.route('/transactions/add', methods=['GET', 'POST'])
+@login_required
+def add_transaction():
+    """Add or modify transactions"""
+
+    return render_template('add-transaction.html')
