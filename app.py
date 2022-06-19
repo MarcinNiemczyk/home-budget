@@ -1,13 +1,8 @@
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from helpers import login_required
+from helpers import login_required, CATEGORIES
 
-
-CATEGORIES = {
-    'outcomes': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
-    'incomes': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
-}
 
 # Configure application
 app = Flask(__name__)
@@ -15,23 +10,18 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-# Name database
-DB_NAME = "database.db"
-
 # Configure database
+DB_NAME = "database.db"
 app.config['SECRET_KEY'] = 'supersecretkeythatnobodycansee'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
 db = SQLAlchemy(app)
 
-# Set up database tables
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+from models import User
 
 # Create database
 db.create_all()
 db.session.commit()
+
 
 @app.route('/')
 @login_required
