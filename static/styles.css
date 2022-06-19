@@ -626,6 +626,10 @@ form {
     width: 200px;
 }
 
+.category .disabled {
+    display: none;
+}
+
 .search {
     position: relative;
 }

@@ -50,4 +50,19 @@ if (currentPage == '/transactions') {
     dropdownMenu('years')
 } else if (currentPage == '/transactions/add') {
     dropdownMenu('category')
+
+    // Change available categories depending on selected transaction type
+    const TRANSACTION_TYPE = document.querySelector('.form__radio-container')
+    TRANSACTION_TYPE.addEventListener('change', () => {
+        // Toggle visibility of each option
+        document.querySelectorAll('.category__option').forEach(option => {
+            // Income categories are hidden by default
+            option.classList.toggle('disabled')
+        })
+        // Reset selected category
+        document.querySelector('.category__selected').innerHTML = 'Select Category'
+        document.querySelectorAll('input[name="category__radio"]').forEach(radioButton => {
+            radioButton.checked = false
+        })
+    })
 }

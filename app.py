@@ -5,10 +5,9 @@ from helpers import login_required
 
 
 CATEGORIES = {
-    'outcome': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
-    'income': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
+    'outcomes': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
+    'incomes': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
 }
-
 
 # Configure application
 app = Flask(__name__)
@@ -255,4 +254,4 @@ def transactions():
 def add_transaction():
     """Add or modify transactions"""
 
-    return render_template('add-transaction.html')
+    return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'])
