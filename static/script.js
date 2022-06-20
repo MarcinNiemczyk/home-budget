@@ -40,6 +40,16 @@ function dropdownMenu(NAME) {
     })
 }
 
+
+function removeTransaction(transactionId) {
+    fetch('/remove-transaction', {
+        method: 'POST',
+        body: JSON.stringify({ transactionId: transactionId }),
+    }).then((_res) => {
+        document.location.reload(true)
+    })
+}
+
 // Track current page route
 let currentPage = window.location.pathname
 

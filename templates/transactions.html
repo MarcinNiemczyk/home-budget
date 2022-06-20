@@ -121,6 +121,7 @@
                         <th>Type</th>
                         <th>Amount</th>
                         <th>Category</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,6 +132,9 @@
                         <td>{{ transaction.type }}</td>
                         <td>{{ transaction.amount }}$</td>
                         <td>{{ transaction.category }}</td>
+                        <td>
+                            <i class="table-remove fa-solid fa-trash-can" onclick="removeTransaction({{ transaction.id }})"></i>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

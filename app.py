@@ -1,9 +1,10 @@
 from multiprocessing.sharedctypes import Value
-from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
+from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import login_required, CATEGORIES
 from datetime import date
+import json
 
 
 # Configure application
@@ -308,3 +309,18 @@ def add_transaction():
     today = date.today()
 
     return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'], today=today)
+
+
+@app.route('/remove-transaction', methods=['POST'])
+@login_required
+def remove_transaction():
+    """Removes selected transaction"""
+    transaction = json.loads(request.data)
+    transactionId = transaction['transactionId']
+    transaction = Transactions.query.get(transactionId)
+    if transaction:
+        if transaction.user_id == session['user_id']:
+            db.session.delete(transaction)
+            db.session.commit()
+
+    return jsonify({})
