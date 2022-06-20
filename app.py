@@ -305,4 +305,6 @@ def add_transaction():
         db.session.commit()
         flash('Transaction added!', category='success')
 
-    return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'])
+    today = date.today()
+
+    return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'], today=today)
