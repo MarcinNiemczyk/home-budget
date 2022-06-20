@@ -238,7 +238,9 @@ def currency():
 def transactions():
     """Show usertransactions and allow him to modify data."""
 
-    return render_template('transactions.html')
+    user = User.query.filter_by(id=session['user_id']).first()
+
+    return render_template('transactions.html', user=user)
 
 
 @app.route('/transactions/add', methods=['GET', 'POST'])
@@ -288,7 +290,7 @@ def add_transaction():
             flash('Incorrect amount', category='error')
             return redirect('/transactions/add')
 
-        # Validate transaction category
+        # Validate transaction category input
         category = request.form.get('category')
         if type == 'outcome' and category not in CATEGORIES['outcomes']:
             flash('Incorrect category', category='error')

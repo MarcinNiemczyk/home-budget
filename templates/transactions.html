@@ -124,139 +124,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for transaction in user.transactions|sort(attribute='date',reverse=True) %}
                     <tr>
-                        <td>22.05.2022</td>
-                        <td>Super long Amazon buy with delivery</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
+                        <td>{{ transaction.date }}</td>
+                        <td>{{ transaction.name }}</td>
+                        <td>{{ transaction.type }}</td>
+                        <td>{{ transaction.amount }}$</td>
+                        <td>{{ transaction.category }}</td>
                     </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
-                    <tr>
-                        <td>22.05.2022</td>
-                        <td>Amazon buy</td>
-                        <td>Outcome</td>
-                        <td>59$</td>
-                        <td>Others</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
