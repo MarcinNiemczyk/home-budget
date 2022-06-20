@@ -61,7 +61,7 @@ if (currentPage == '/transactions') {
         })
         // Reset selected category
         document.querySelector('.category__selected').innerHTML = 'Select Category'
-        document.querySelectorAll('input[name="category__radio"]').forEach(radioButton => {
+        document.querySelectorAll('input[name="category"]').forEach(radioButton => {
             radioButton.checked = false
         })
     })

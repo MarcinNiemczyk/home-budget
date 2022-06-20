@@ -37,13 +37,13 @@
                 <div class="select__options category">
                     {% for category in outcomes %}
                         <div class="select__option category__option outcomes">
-                            <input type="radio" class="radio" id="{{ category }}" name="category__radio" value="{{ category }}">
+                            <input type="radio" class="radio" id="{{ category }}" name="category" value="{{ category }}">
                             <label for="{{ category }}">{{ category }}</label>
                         </div>
                     {% endfor %}
                     {% for category in incomes %}
                         <div class="select__option category__option incomes disabled">
-                            <input type="radio" class="radio" id="{{ category }}" name="category__radio" value="{{ category }}">
+                            <input type="radio" class="radio" id="{{ category }}" name="category" value="{{ category }}">
                             <label for="{{ category }}">{{ category }}</label>
                         </div>
                     {% endfor %}

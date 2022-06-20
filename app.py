@@ -1,7 +1,9 @@
+from multiprocessing.sharedctypes import Value
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import login_required, CATEGORIES
+from datetime import date
 
 
 # Configure application
@@ -16,7 +18,7 @@ app.config['SECRET_KEY'] = 'supersecretkeythatnobodycansee'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
 db = SQLAlchemy(app)
 
-from models import User
+from models import User, Transactions
 
 # Create database
 db.create_all()
@@ -243,5 +245,62 @@ def transactions():
 @login_required
 def add_transaction():
     """Add or modify transactions"""
+
+    if request.method == 'POST':
+        # Validate date input
+        date_input = request.form.get('date')
+        if len(date_input) != 10:
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
+        try:
+            year = int(date_input[0:4])
+            month = int(date_input[5:7])
+            day = int(date_input[8:10])
+        except (TypeError, ValueError):
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
+        date_output = date(year, month, day)
+
+        # Validate type input
+        type = request.form.get('type')
+        if type != 'outcome' and type != 'income':
+            flash('Incorrect transaction type', category='error')
+            return redirect('/transactions/add')
+
+        # Validate name input
+        name = request.form.get('name')
+        if len(name) < 2:
+            flash('Name is too short', category='error')
+            return redirect('/transactions/add')
+        if len(name) > 99:
+            flash('Name is too long', category='error')
+            return redirect('/transactions/add')
+
+        # Validate amount input
+        amount = request.form.get('amount')
+        try:
+            amount = float(amount)
+            amount = round(amount)
+        except (TypeError, ValueError):
+            flash('Incorrect amount', category='error')
+            return redirect('/transactions/add')
+        if amount <= 0 or amount > 9999999:
+            flash('Incorrect amount', category='error')
+            return redirect('/transactions/add')
+
+        # Validate transaction category
+        category = request.form.get('category')
+        if type == 'outcome' and category not in CATEGORIES['outcomes']:
+            flash('Incorrect category', category='error')
+            return redirect('/transactions/add')
+        if type == 'income' and category not in CATEGORIES['incomes']:
+            flash('Incorrect category', category='error')
+            return redirect('/transactions/add')
+
+        # Create new transaction and add it to database
+        new_transaction = Transactions(name=name, type=type, amount=amount, category=category, date=date_output, user_id = session['user_id'])
+        db.session.add(new_transaction)
+        db.session.commit()
+        flash('Transaction added!', category='success')
 
     return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'])
