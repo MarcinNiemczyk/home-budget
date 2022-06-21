@@ -239,9 +239,9 @@ def currency():
 def transactions():
     """Show usertransactions and allow him to modify data."""
 
-    user = User.query.filter_by(id=session['user_id']).first()
+    transactions = Transactions.query.filter_by(user_id=session['user_id']).all()
 
-    return render_template('transactions.html', user=user)
+    return render_template('transactions.html', transactions=transactions)
 
 
 @app.route('/transactions/add', methods=['GET', 'POST'])
