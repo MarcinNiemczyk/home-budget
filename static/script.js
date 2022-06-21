@@ -13,7 +13,7 @@ document.querySelector('.navbar__close').addEventListener('click', () => {
 function dropdownMenu(NAME) {
     const SELECTED = document.querySelector('.' + NAME + '__selected')
     const OPTIONS_CONTAINER = document.querySelector('.' + NAME)
-    const OPTIONS = document.querySelectorAll('.' + NAME+ '__option label')
+    const OPTIONS = document.querySelectorAll('.' + NAME+ '__option .radio')
 
     // Toggle visibility of dropdown menu
     SELECTED.addEventListener('click', () => {
@@ -24,15 +24,19 @@ function dropdownMenu(NAME) {
     OPTIONS.forEach(option => {
         option.addEventListener('click', () => {
             // Change selected option value
-            SELECTED.innerHTML = option.innerHTML
+            let label = document.querySelector('label[for="' + option.id + '"]')
+            SELECTED.innerHTML = label.innerHTML
 
             // Remove active style effect from previous option
             OPTIONS.forEach(option => {
-                option.classList.remove('active')
+                let label = document.querySelector('label[for="' + option.id + '"]')
+                label.classList.remove('active')
+                option.checked = false
             })
             
             // Add active style effect to new option
-            option.classList.add('active')
+            label.classList.add('active')
+            option.checked = true
 
             // Close dropdown menu
             OPTIONS_CONTAINER.classList.remove('active')

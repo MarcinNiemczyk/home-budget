@@ -2,8 +2,8 @@ from multiprocessing.sharedctypes import Value
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from helpers import login_required, CATEGORIES
-from datetime import date
+from helpers import YEARS, login_required, CATEGORIES, MONTHS
+from datetime import date, datetime
 import json
 
 
@@ -240,8 +240,11 @@ def transactions():
     """Show usertransactions and allow him to modify data."""
 
     transactions = Transactions.query.filter_by(user_id=session['user_id']).all()
+    today = datetime.today()
+    today_month = today.month
+    today_year = today.year
 
-    return render_template('transactions.html', transactions=transactions)
+    return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, selected_month=today_month, selected_year=today_year)
 
 
 @app.route('/transactions/add', methods=['GET', 'POST'])
