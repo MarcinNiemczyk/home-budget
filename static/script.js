@@ -58,6 +58,16 @@ if (currentPage == '/transactions') {
     dropdownMenu('filter')
     dropdownMenu('months')
     dropdownMenu('years')
+
+    // Drop down table on smaller screens
+    const TABLE_TOGGLE = document.querySelectorAll('.transactions-table tr')
+    TABLE_TOGGLE.forEach(row => {
+        row.addEventListener('click', () => {
+            row.classList.toggle('active')
+        })
+    })
+
+
 } else if (currentPage == '/transactions/add') {
     dropdownMenu('category')
 
