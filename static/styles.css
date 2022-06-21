@@ -235,11 +235,31 @@ main {
 }
 
 .main--center {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     height: 100%;
     justify-content: center;
+    margin-top: 40px;
     width: 100%;
+}
+
+.back-button {
+    padding: 25px;
+    width: 100%;
+}
+
+.back-button button {
+    background-color: rgb(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: rgb(120, 120, 120);
+    font-size: 18px;
+    padding: 12px 20px;
+}
+
+.back-button:hover button {
+    cursor: pointer;
+    color: white;
 }
 
 form {
@@ -694,15 +714,6 @@ form {
     background-color: rgb(var(--secondary-color));
 }
 
-/* .transactions-table tbody td:nth-last-child(2) {
-    padding-right: 0;
-} */
-
-/* .transactions-table tbody td:last-of-type {
-    padding: 0;
-    text-align: center;
-} */
-
 .table-remove {
     background-color: rgba(var(--background-color), 0.5);
     border-radius: 50%;
@@ -726,6 +737,10 @@ form {
         width: 100px;
     }
 
+    .main--center {
+        margin-top: 20px;
+    }
+
     .category-wrapper {
         width: 200px;
     }
@@ -738,6 +753,10 @@ form {
 @media (max-width: 1200px) {
     header {
         height: 100px;
+    }
+    
+    .main--center {
+        margin-top: 10px;
     }
 
     .transactions {
@@ -907,6 +926,10 @@ form {
         left: 0;
         top: 10%;
         width: 100%;
+    }
+
+    .main--center {
+        margin-top: 0;
     }
 
     .settings__password,

@@ -7,6 +7,9 @@
 
 
 {% block content %} 
+    <div class="back-button">
+        <button onclick="window.location.href='/transactions'"><i class="fa-solid fa-arrow-left-long"></i></button>
+    </div>
     <div class="main--center">
         <form action="/transactions/add" autocomplete="off" method="post">
             <div class="form__item">

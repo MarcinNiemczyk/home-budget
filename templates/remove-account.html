@@ -10,6 +10,9 @@
 {% endblock %}
 
 {% block content %} 
+    <div class="back-button">
+        <button onclick="window.location.href='/settings'"><i class="fa-solid fa-arrow-left-long"></i></button>
+    </div>
     <div class="main--center">
         <form action="/settings/remove-account" autocomplete="off" method="post">
             <h2 class="remove__heading">Your account will be removed permamently!</h2>
