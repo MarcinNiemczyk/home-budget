@@ -24,6 +24,8 @@ MONTHS = {
 
 YEARS = [2022 + i for i in range(10)]
 
+TRANSACTION_TYPES = ['all', 'income', 'outcome']
+
 
 def login_required(f):
     """Decorate routes to require login."""

@@ -1,8 +1,9 @@
 from multiprocessing.sharedctypes import Value
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func, extract
 from werkzeug.security import generate_password_hash, check_password_hash
-from helpers import YEARS, login_required, CATEGORIES, MONTHS
+from helpers import TRANSACTION_TYPES, YEARS, login_required, CATEGORIES, MONTHS
 from datetime import date, datetime
 import json
 
@@ -233,18 +234,33 @@ def currency():
     flash("This feature is currently unavailable", category='error')
     return redirect('/')
 
-
-@app.route('/transactions')
+@app.route('/transactions', defaults={'year': datetime.today().year, 'month': datetime.today().month, 'transaction_type': 'all'})
+@app.route('/transactions/<int:year>/<int:month>/<transaction_type>')
 @login_required
-def transactions():
+def transactions(year, month, transaction_type):
     """Show usertransactions and allow him to modify data."""
 
-    transactions = Transactions.query.filter_by(user_id=session['user_id']).all()
-    today = datetime.today()
-    today_month = today.month
-    today_year = today.year
+    # Prevent user to access wrong page
+    if month < 1 or month > 12:
+        flash('Invalid month', category='error')
+        return redirect('/transactions')
+    if year < min(YEARS) or year > max(YEARS):
+        flash('Invalid year', category='error')
+        return redirect('/transactions')
+    if transaction_type not in TRANSACTION_TYPES:
+        flash('Invalid transaction type', category='error')
+        return redirect('/transactions')
 
-    return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, selected_month=today_month, selected_year=today_year)
+    if transaction_type == 'all':
+        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
+                   'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).all()
+    else:
+        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
+                    'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter_by(\
+                    type=transaction_type).all()
+
+    return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
+           transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)
 
 
 @app.route('/transactions/add', methods=['GET', 'POST'])
@@ -265,11 +281,14 @@ def add_transaction():
         except (TypeError, ValueError):
             flash('Incorrect date', category='error')
             return redirect('/transactions/add')
+        if year < min(YEARS) or year > max(YEARS):
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
         date_output = date(year, month, day)
 
         # Validate type input
-        type = request.form.get('type')
-        if type != 'outcome' and type != 'income':
+        transaction_type = request.form.get('transaction_type')
+        if transaction_type != 'outcome' and transaction_type != 'income':
             flash('Incorrect transaction type', category='error')
             return redirect('/transactions/add')
 
@@ -296,15 +315,15 @@ def add_transaction():
 
         # Validate transaction category input
         category = request.form.get('category')
-        if type == 'outcome' and category not in CATEGORIES['outcomes']:
+        if transaction_type == 'outcome' and category not in CATEGORIES['outcomes']:
             flash('Incorrect category', category='error')
             return redirect('/transactions/add')
-        if type == 'income' and category not in CATEGORIES['incomes']:
+        if transaction_type == 'income' and category not in CATEGORIES['incomes']:
             flash('Incorrect category', category='error')
             return redirect('/transactions/add')
 
         # Create new transaction and add it to database
-        new_transaction = Transactions(name=name, type=type, amount=amount, category=category, date=date_output, user_id = session['user_id'])
+        new_transaction = Transactions(name=name, type=transaction_type, amount=amount, category=category, date=date_output, user_id = session['user_id'])
         db.session.add(new_transaction)
         db.session.commit()
         flash('Transaction added!', category='success')

@@ -54,11 +54,30 @@ function removeTransaction(transactionId) {
     })
 }
 
+
 // Track current page route
 let currentPage = window.location.pathname
 
-// Apply right functionality
-if (currentPage == '/transactions') {
+// Ensure script is running on right page
+if (currentPage.includes('/transactions')) {
+    if (currentPage == '/transactions/add') {
+        dropdownMenu('category')
+
+        // Change available categories depending on selected transaction type
+        const TRANSACTION_TYPE = document.querySelector('.form__radio-container')
+        TRANSACTION_TYPE.addEventListener('change', () => {
+            // Toggle visibility of each option
+            document.querySelectorAll('.category__option').forEach(option => {
+                // Income categories are hidden by default
+                option.classList.toggle('disabled')
+            })
+            // Reset selected category
+            document.querySelector('.category__selected').innerHTML = 'Select Category'
+            document.querySelectorAll('input[name="category"]').forEach(radioButton => {
+                radioButton.checked = false
+            })
+        })
+    }
     dropdownMenu('filter')
     dropdownMenu('months')
     dropdownMenu('years')
@@ -68,25 +87,6 @@ if (currentPage == '/transactions') {
     TABLE_TOGGLE.forEach(row => {
         row.addEventListener('click', () => {
             row.classList.toggle('active')
-        })
-    })
-
-
-} else if (currentPage == '/transactions/add') {
-    dropdownMenu('category')
-
-    // Change available categories depending on selected transaction type
-    const TRANSACTION_TYPE = document.querySelector('.form__radio-container')
-    TRANSACTION_TYPE.addEventListener('change', () => {
-        // Toggle visibility of each option
-        document.querySelectorAll('.category__option').forEach(option => {
-            // Income categories are hidden by default
-            option.classList.toggle('disabled')
-        })
-        // Reset selected category
-        document.querySelector('.category__selected').innerHTML = 'Select Category'
-        document.querySelectorAll('input[name="category"]').forEach(radioButton => {
-            radioButton.checked = false
         })
     })
 }
