@@ -55,6 +55,16 @@ function removeTransaction(transactionId) {
 }
 
 
+// Drop down table on smaller screens
+function tableToggle(tr) {
+    tr.forEach(row => {
+        row.addEventListener('click', () => {
+            row.classList.toggle('active')
+        })
+    })
+}
+
+
 // Track current page route
 let currentPage = window.location.pathname
 
@@ -82,13 +92,8 @@ if (currentPage.includes('/transactions')) {
     dropdownMenu('months')
     dropdownMenu('years')
 
-    // Drop down table on smaller screens
-    const TABLE_TOGGLE = document.querySelectorAll('.transactions-table tr')
-    TABLE_TOGGLE.forEach(row => {
-        row.addEventListener('click', () => {
-            row.classList.toggle('active')
-        })
-    })
+    let tr = document.querySelectorAll('.transactions-table tr')
+    tableToggle(tr)
 
     // Handle search bar
     let input = document.querySelector('.search__input')
@@ -107,5 +112,8 @@ if (currentPage.includes('/transactions')) {
             html += '<td data-label="Action"><i class="table-remove fa-solid fa-trash-can" onclick="removeTransaction(' + transactions[id].id + ')"></i></td></tr>'
         }
         document.querySelector('tbody').innerHTML = html
+        // Handle dropdown table on smaller screen for new table rows
+        tr = document.querySelectorAll('.transactions-table tr')
+        tableToggle(tr)
     })
 }
