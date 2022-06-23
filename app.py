@@ -1,6 +1,7 @@
 from multiprocessing.sharedctypes import Value
 from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 from sqlalchemy import func, extract
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import TRANSACTION_TYPES, YEARS, login_required, CATEGORIES, MONTHS
@@ -19,8 +20,9 @@ DB_NAME = "database.db"
 app.config['SECRET_KEY'] = 'supersecretkeythatnobodycansee'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
-from models import User, Transactions
+from models import User, Transactions,TransactionsSchema
 
 # Create database
 db.create_all()
@@ -235,7 +237,7 @@ def currency():
     return redirect('/')
 
 @app.route('/transactions', defaults={'year': datetime.today().year, 'month': datetime.today().month, 'transaction_type': 'all'})
-@app.route('/transactions/<int:year>/<int:month>/<transaction_type>')
+@app.route('/transactions/<int:year>/<int:month>/<transaction_type>', methods=['GET', 'POST'])
 @login_required
 def transactions(year, month, transaction_type):
     """Show usertransactions and allow him to modify data."""
@@ -251,13 +253,31 @@ def transactions(year, month, transaction_type):
         flash('Invalid transaction type', category='error')
         return redirect('/transactions')
 
-    if transaction_type == 'all':
+    # Get search input
+    search_text = request.args.get('q')
+
+
+    if search_text and transaction_type == 'all':
+        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
+                   'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter(Transactions.name.like((f'%{search_text}%'))).all()
+    elif transaction_type == 'all':
         transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
                    'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).all()
+    elif search_text:
+        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
+                    'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter_by(\
+                    type=transaction_type).filter(Transactions.name.like((f'%{search_text}%'))).all()
     else:
         transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
                     'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter_by(\
                     type=transaction_type).all()
+
+    # Ensure text is inside input and handle request
+    if search_text is not None:
+        transactions_schema = TransactionsSchema()
+        output = transactions_schema.dump(transactions, many=True)
+        return jsonify(output)
+
 
     return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
            transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)

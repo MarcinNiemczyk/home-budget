@@ -89,4 +89,23 @@ if (currentPage.includes('/transactions')) {
             row.classList.toggle('active')
         })
     })
+
+    // Handle search bar
+    let input = document.querySelector('.search__input')
+    input.addEventListener('input', async function() {
+        // Send request with current transaction page to keep track of filters
+        let response = await fetch(currentPage + '?q=' + input.value)
+        let transactions = await response.json()
+        let html = ''
+        // Replace html tags inside tbody
+        for (let id in transactions) {
+            html += '<tr><td data-label="Date">' + transactions[id].date + '</td>'
+            html += '<td data-label="Name"><i class="table-drop fa-solid fa-circle-chevron-down"></i>' + transactions[id].name + '</td>'
+            html += '<td data-label="Type">' + transactions[id].type + '</td>'
+            html += '<td data-label="Amount">' + transactions[id].amount + '$</td>'
+            html += '<td data-label="Category">' + transactions[id].category + '</td>'
+            html += '<td data-label="Action"><i class="table-remove fa-solid fa-trash-can" onclick="removeTransaction(' + transactions[id].id + ')"></i></td></tr>'
+        }
+        document.querySelector('tbody').innerHTML = html
+    })
 }
