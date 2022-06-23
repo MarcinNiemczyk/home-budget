@@ -243,10 +243,10 @@ def transactions(year, month, transaction_type):
     """Show usertransactions and allow him to modify data."""
 
     # Prevent user to access wrong page
-    if month < 1 or month > 12:
+    if month < 0 or month > 12:
         flash('Invalid month', category='error')
         return redirect('/transactions')
-    if year < min(YEARS) or year > max(YEARS):
+    if year not in YEARS:
         flash('Invalid year', category='error')
         return redirect('/transactions')
     if transaction_type not in TRANSACTION_TYPES:
@@ -260,10 +260,12 @@ def transactions(year, month, transaction_type):
     transactions = Transactions.query.filter_by(user_id=session['user_id'])
 
     # Query for applied month
-    transactions = transactions.filter(extract('month', Transactions.date)==month)
+    if not month == 0:
+        transactions = transactions.filter(extract('month', Transactions.date)==month)
 
     # Query for applied year
-    transactions = transactions.filter(extract('year', Transactions.date)==year)
+    if not year == 0:
+        transactions = transactions.filter(extract('year', Transactions.date)==year)
 
     # Handle transaction type
     if not transaction_type == 'all':
@@ -282,7 +284,6 @@ def transactions(year, month, transaction_type):
         output = transactions_schema.dump(transactions, many=True)
         return jsonify(output)
 
-    print(transactions)
     return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
            transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)
 
@@ -305,7 +306,7 @@ def add_transaction():
         except (TypeError, ValueError):
             flash('Incorrect date', category='error')
             return redirect('/transactions/add')
-        if year < min(YEARS) or year > max(YEARS):
+        if year not in YEARS:
             flash('Incorrect date', category='error')
             return redirect('/transactions/add')
         date_output = date(year, month, day)

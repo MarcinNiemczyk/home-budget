@@ -8,6 +8,7 @@ CATEGORIES = {
 }
 
 MONTHS = {
+    0: 'All',
     1: 'January',
     2: 'February',
     3: 'March',
@@ -23,6 +24,7 @@ MONTHS = {
 }
 
 YEARS = [2022 + i for i in range(10)]
+YEARS.insert(0, 0)
 
 TRANSACTION_TYPES = ['all', 'income', 'outcome']
 
