@@ -210,6 +210,7 @@ nav {
 
 .alert {
     align-items: center;
+    animation: hideAlert 1s ease-in-out 3s forwards;
     background-color: rgb(91, 192, 222);
     box-shadow: 0px 1px 2px rgb(var(--color-black));
     display: flex;
@@ -1053,7 +1054,6 @@ form {
 
     .transactions-table tr.active td {
         display: block;
-        transform: scale(1, 1);
     }
 
     .transactions-table tr.active .table-drop {
@@ -1125,5 +1125,14 @@ form {
 
     .transactions-table td {
         padding-left: 45%;
+    }
+}
+
+@keyframes hideAlert {
+    to {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        display: none;
     }
 }

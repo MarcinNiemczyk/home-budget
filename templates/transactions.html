@@ -47,9 +47,6 @@
                 <div class="select__options years">
                     {% for year in years %}
                         <div class="select__option years__option">
-                            
-                            
-                            
                                 <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %} 
                                     onclick="window.location.href='/transactions/{{ year }}/{{ selected_month }}/{{ selected_type }}'">
                                 <label for="{{ year }}" {% if selected_year == year %}class="active"{% endif %}>
