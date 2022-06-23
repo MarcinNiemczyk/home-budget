@@ -256,21 +256,25 @@ def transactions(year, month, transaction_type):
     # Get search input
     search_text = request.args.get('q')
 
+    # Get logged user transactions data
+    transactions = Transactions.query.filter_by(user_id=session['user_id'])
 
-    if search_text and transaction_type == 'all':
-        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
-                   'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter(Transactions.name.like((f'%{search_text}%'))).all()
-    elif transaction_type == 'all':
-        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
-                   'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).all()
-    elif search_text:
-        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
-                    'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter_by(\
-                    type=transaction_type).filter(Transactions.name.like((f'%{search_text}%'))).all()
-    else:
-        transactions = Transactions.query.filter_by(user_id=session['user_id']).filter(extract(\
-                    'month', Transactions.date)==month).filter(extract('year', Transactions.date)==year).filter_by(\
-                    type=transaction_type).all()
+    # Query for applied month
+    transactions = transactions.filter(extract('month', Transactions.date)==month)
+
+    # Query for applied year
+    transactions = transactions.filter(extract('year', Transactions.date)==year)
+
+    # Handle transaction type
+    if not transaction_type == 'all':
+        transactions = transactions.filter_by(type=transaction_type)
+
+    # Handle search functionality
+    if search_text:
+        transactions = transactions.filter(Transactions.name.like((f'%{search_text}%')))
+
+    # Apply selected filters
+    transactions = transactions.all()
 
     # Ensure text is inside input and handle request
     if search_text is not None:
@@ -278,7 +282,7 @@ def transactions(year, month, transaction_type):
         output = transactions_schema.dump(transactions, many=True)
         return jsonify(output)
 
-
+    print(transactions)
     return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
            transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)
 
