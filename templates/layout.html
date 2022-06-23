@@ -2,6 +2,7 @@
 
 <html lang="en">
     <head>
+        {% set active_page = active_page|default('/') %}
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
 
@@ -26,21 +27,21 @@
                             <i class="fa-solid fa-xmark"></i>
                         </div>
                     </div>
-                    <li class="navbar__item">
-                        <a class="navbar__link navbar__link--active" href="#"><i class="fa-solid fa-chart-line"></i>Summary</a>
-                    </li>
-                    <li class="navbar__item">
-                        <a class="navbar__link" href="#"><i class="fa-solid fa-list-ul"></i>Transactions</a>
-                    </li>
-                    <li class="navbar__item">
-                        <a class="navbar__link" href="#"><i class="fa-regular fa-clock"></i></i>Planned</a>
-                    </li>
-                    <li class="navbar__item">
-                        <a class="navbar__link" href="/settings"><i class="fa-solid fa-gear"></i>Settings</a>
-                    </li>
-                    <li class="navbar__item">
-                        <a class="navbar__link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-                    </li>
+                        <li class="navbar__item">
+                            <a {% if active_page == "/" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="/"><i class="fa-solid fa-chart-line"></i>Summary</a>
+                        </li>
+                        <li class="navbar__item">
+                            <a {% if active_page == "/transactions" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="/transactions"><i class="fa-solid fa-list-ul"></i>Transactions</a>
+                        </li>
+                        <li class="navbar__item">
+                            <a {% if active_page == "/planning" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="#"><i class="fa-regular fa-clock"></i></i>Planning</a>
+                        </li>
+                        <li class="navbar__item">
+                            <a {% if active_page == "/settings" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="/settings"><i class="fa-solid fa-gear"></i>Settings</a>
+                        </li>
+                        <li class="navbar__item">
+                            <a class="navbar__link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+                        </li>
                 </ul>
             </nav>
            <header>
@@ -52,7 +53,7 @@
             </div>
                <h1>{% block heading %}{% endblock %}</h1>
                <div class="header__icons">
-                    <a class="header__link" href="/currency"><i class="fa-solid fa-money-bills"></i></a>
+                    <a class="header__link" href="/settings/currency"><i class="fa-solid fa-money-bills"></i></a>
                     <a class="header__link" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
                </div>
            </header> 

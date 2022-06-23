@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% set active_page = "/transactions" %}
+
+{% block title %}
+    Transactions
+{% endblock %}
+
+{% block heading %}
+    Transactions
+{% endblock %}
+
+{% block content %} 
+    <div class="transactions">
+        <div class="transactions__menu">
+            <button class="transactions__new form__button" onclick="window.location.pathname='/transactions/add'">Create New</button>
+
+            <div class="select">
+                <div class="select__options filter">
+                    {% for transaction_type in transaction_types %}
+                        <div class="select__option filter__option">
+                            <input type="radio" class="radio" id="{{ transaction_type }}" name="filter__radio" value="all" {% if selected_month == month %}checked{% endif %} 
+                                   onclick="window.location.href='/transactions/{{ selected_year }}/{{ selected_month }}/{{ transaction_type }}'">
+                            <label for="{{ transaction_type }}" {% if selected_type == transaction_type %}class="active"{% endif %}>{{ transaction_type }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="select__selected filter__selected">{{ selected_type }}</div>
+                <div class="select__head">Filter</div>
+            </div>
+
+            <div class="select">
+                <div class="select__options months">
+                    {% for month in months %}
+                        <div class="select__option months__option">
+                            <input type="radio" class="radio" id="{{ months[month] }}" name="{{ month }}" value="{{ months[month] }}" {% if selected_month == month %}checked{% endif %} 
+                                   onclick="window.location.href='/transactions/{{ selected_year }}/{{ month }}/{{ selected_type }}'">
+                            <label for="{{ months[month] }}" {% if selected_month == month %}class="active"{% endif %}>{{ months[month] }}</label>
+                        </div>
+                    {% endfor %}
+
+                </div>
+                <div class="select__selected months__selected">{{ months[selected_month] }}</div>
+                <div class="select__head">Month</div>
+            </div>
+
+            <div class="select">
+                <div class="select__options years">
+                    {% for year in years %}
+                        <div class="select__option years__option">
+                            
+                            
+                            
+                                <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %} 
+                                    onclick="window.location.href='/transactions/{{ year }}/{{ selected_month }}/{{ selected_type }}'">
+                                <label for="{{ year }}" {% if selected_year == year %}class="active"{% endif %}>
+                                    {% if year == 0 %}
+                                        All
+                                    {% else %}
+                                        {{ year }}
+                                    {% endif %}
+                                </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="select__selected years__selected">
+                    {% if selected_year == 0 %}
+                        All 
+                    {% else %} 
+                        {{ selected_year }}
+                    {% endif %}
+                </div>
+                <div class="select__head">Year</div>
+            </div>
+
+            <div class="search">
+                <i class="search__icon fa-solid fa-magnifying-glass"></i>
+                <input type="search" class="search__input" name="search" placeholder="Search">
+            </div>
+            
+        </div>
+
+        <div class="transactions-table__container"> 
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions|sort(attribute='date',reverse=True) %}
+                    <tr>
+                        <td data-label="Date">{{ transaction.date }}</td>
+                        <td data-label="Name">
+                            <i class="table-drop fa-solid fa-circle-chevron-down"></i>
+                            {{ transaction.name }}
+                        </td>
+                        <td data-label="Type">{{ transaction.type }}</td>
+                        <td data-label="Amount">{{ transaction.amount }}$</td>
+                        <td data-label="Category">{{ transaction.category }}</td>
+                        <td data-label="Action">
+                            <i class="table-remove fa-solid fa-trash-can" onclick="removeTransaction({{ transaction.id }})"></i>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

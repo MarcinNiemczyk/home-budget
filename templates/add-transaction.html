@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% set active_page = "/transactions" %}
+
+{% block title %}
+    Add transaction
+{% endblock %}
+
+
+{% block content %} 
+    <div class="back-button">
+        <button onclick="window.location.href='/transactions'"><i class="fa-solid fa-arrow-left-long"></i></button>
+    </div>
+    <div class="main--center">
+        <form action="/transactions/add" autocomplete="off" method="post">
+            <div class="form__item">
+                <input class="form__input" id="date" name="date" placeholder=" " type="date" value="{{ today }}">
+                <label for="date">Date</label>
+            </div>
+
+            <div class="form__radio-container">
+                <input type="radio" name="transaction_type" id="outcome" class="form__radio" checked="checked" value="outcome">
+                <label for="outcome">Outcome</label>
+                <input type="radio" name="transaction_type" id="income" class="form__radio" value="income">
+                <label for="income">Income</label>
+            </div>
+
+            <div class="form__item">
+                <input class="form__input" id="name" name="name" placeholder=" " type="text">
+                <label for="name">Name</label>
+            </div>
+
+            <div class="form__item">
+                <input class="form__input" id="amount" name="amount" placeholder=" " type="text">
+                <label for="amount">Amount</label>
+            </div>
+    
+            <div class="select category-wrapper">
+                <div class="select__options category">
+                    {% for category in outcomes %}
+                        <div class="select__option category__option outcomes">
+                            <input type="radio" class="radio" id="{{ category }}" name="category" value="{{ category }}">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                    {% for category in incomes %}
+                        <div class="select__option category__option incomes disabled">
+                            <input type="radio" class="radio" id="{{ category }}" name="category" value="{{ category }}">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="select__selected category__selected">Select Category</div>
+                <div class="select__head">Category</div>
+            </div>
+    
+            <button class="form__button" type="submit">Add</button>
+        </form>
+    </div>
+{% endblock %}

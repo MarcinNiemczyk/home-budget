@@ -1,8 +1,12 @@
-from unicodedata import category
-from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages
+from multiprocessing.sharedctypes import Value
+from flask import Flask, redirect, render_template, request, session, flash, get_flashed_messages, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
+from sqlalchemy import func, extract
 from werkzeug.security import generate_password_hash, check_password_hash
-from helpers import login_required
+from helpers import TRANSACTION_TYPES, YEARS, login_required, CATEGORIES, MONTHS
+from datetime import date, datetime
+import json
 
 
 # Configure application
@@ -11,23 +15,19 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-# Name database
-DB_NAME = "database.db"
-
 # Configure database
+DB_NAME = "database.db"
 app.config['SECRET_KEY'] = 'supersecretkeythatnobodycansee'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 
-# Set up database tables
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+from models import User, Transactions,TransactionsSchema
 
 # Create database
 db.create_all()
 db.session.commit()
+
 
 @app.route('/')
 @login_required
@@ -157,7 +157,7 @@ def settings():
     return render_template('settings.html')
 
 
-@app.route('/password', methods=['GET', 'POST'])
+@app.route('/settings/change-password', methods=['GET', 'POST'])
 @login_required
 def password():
     """Change user password"""
@@ -196,10 +196,10 @@ def password():
         flash("Password has been changed", category='success')
         return redirect('/settings')
 
-    return render_template('password.html')
+    return render_template('change-password.html')
 
 
-@app.route('/remove', methods=['GET', 'POST'])
+@app.route('/settings/remove-account', methods=['GET', 'POST'])
 @login_required
 def remove():
     """Remove user account"""
@@ -225,13 +225,149 @@ def remove():
         flash("Account has been removed", category='success')
         return redirect('/login')
 
-    return render_template('remove.html')
+    return render_template('remove-account.html')
 
 
-@app.route('/currency')
+@app.route('/settings/currency')
 @login_required
 def currency():
     """Change displaying currency on page"""
 
     flash("This feature is currently unavailable", category='error')
     return redirect('/')
+
+@app.route('/transactions', defaults={'year': datetime.today().year, 'month': datetime.today().month, 'transaction_type': 'all'})
+@app.route('/transactions/<int:year>/<int:month>/<transaction_type>', methods=['GET', 'POST'])
+@login_required
+def transactions(year, month, transaction_type):
+    """Show usertransactions and allow him to modify data."""
+
+    # Prevent user to access wrong page
+    if month < 0 or month > 12:
+        flash('Invalid month', category='error')
+        return redirect('/transactions')
+    if year not in YEARS:
+        flash('Invalid year', category='error')
+        return redirect('/transactions')
+    if transaction_type not in TRANSACTION_TYPES:
+        flash('Invalid transaction type', category='error')
+        return redirect('/transactions')
+
+    # Get search input
+    search_text = request.args.get('q')
+
+    # Get logged user transactions data
+    transactions = Transactions.query.filter_by(user_id=session['user_id'])
+
+    # Query for applied month
+    if not month == 0:
+        transactions = transactions.filter(extract('month', Transactions.date)==month)
+
+    # Query for applied year
+    if not year == 0:
+        transactions = transactions.filter(extract('year', Transactions.date)==year)
+
+    # Handle transaction type
+    if not transaction_type == 'all':
+        transactions = transactions.filter_by(type=transaction_type)
+
+    # Handle search functionality
+    if search_text:
+        transactions = transactions.filter(Transactions.name.like((f'%{search_text}%')))
+
+    # Apply selected filters
+    transactions = transactions.all()
+
+    # Ensure text is inside input and handle request
+    if search_text is not None:
+        transactions_schema = TransactionsSchema()
+        output = transactions_schema.dump(transactions, many=True)
+        return jsonify(output)
+
+    return render_template('transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
+           transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)
+
+
+@app.route('/transactions/add', methods=['GET', 'POST'])
+@login_required
+def add_transaction():
+    """Add or modify transactions"""
+
+    if request.method == 'POST':
+        # Validate date input
+        date_input = request.form.get('date')
+        if len(date_input) != 10:
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
+        try:
+            year = int(date_input[0:4])
+            month = int(date_input[5:7])
+            day = int(date_input[8:10])
+        except (TypeError, ValueError):
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
+        if year not in YEARS:
+            flash('Incorrect date', category='error')
+            return redirect('/transactions/add')
+        date_output = date(year, month, day)
+
+        # Validate type input
+        transaction_type = request.form.get('transaction_type')
+        if transaction_type != 'outcome' and transaction_type != 'income':
+            flash('Incorrect transaction type', category='error')
+            return redirect('/transactions/add')
+
+        # Validate name input
+        name = request.form.get('name')
+        if len(name) < 2:
+            flash('Name is too short', category='error')
+            return redirect('/transactions/add')
+        if len(name) > 99:
+            flash('Name is too long', category='error')
+            return redirect('/transactions/add')
+
+        # Validate amount input
+        amount = request.form.get('amount')
+        try:
+            amount = float(amount)
+            amount = round(amount)
+        except (TypeError, ValueError):
+            flash('Incorrect amount', category='error')
+            return redirect('/transactions/add')
+        if amount <= 0 or amount > 9999999:
+            flash('Incorrect amount', category='error')
+            return redirect('/transactions/add')
+
+        # Validate transaction category input
+        category = request.form.get('category')
+        if transaction_type == 'outcome' and category not in CATEGORIES['outcomes']:
+            flash('Incorrect category', category='error')
+            return redirect('/transactions/add')
+        if transaction_type == 'income' and category not in CATEGORIES['incomes']:
+            flash('Incorrect category', category='error')
+            return redirect('/transactions/add')
+
+        # Create new transaction and add it to database
+        new_transaction = Transactions(name=name, type=transaction_type, amount=amount, category=category, date=date_output, user_id = session['user_id'])
+        db.session.add(new_transaction)
+        db.session.commit()
+        flash('Transaction added!', category='success')
+
+    today = date.today()
+
+    return render_template('add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'], today=today)
+
+
+@app.route('/remove-transaction', methods=['POST'])
+@login_required
+def remove_transaction():
+    """Removes selected transaction"""
+    transaction = json.loads(request.data)
+    transactionId = transaction['transactionId']
+    transaction = Transactions.query.get(transactionId)
+    if transaction:
+        if transaction.user_id == session['user_id']:
+            db.session.delete(transaction)
+            db.session.commit()
+
+    return jsonify({})
