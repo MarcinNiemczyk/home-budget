@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, request, render_template, redirect, session, url_for 
 from werkzeug.security import check_password_hash, generate_password_hash
-from ..models import login_required, User
+from ..models import Transactions, login_required, User
 from .. import db
 
 
@@ -73,6 +73,9 @@ def remove():
             flash("Invalid password", category='error')
             return redirect(url_for('settings.remove'))
         
+        # Remove all user transactions
+        Transactions.query.filter_by(user_id=user.id).delete()
+
         # Remove user from database
         User.query.filter_by(id=user.id).delete()
         db.session.commit()
