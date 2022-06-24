@@ -11,7 +11,7 @@
         <button onclick="window.location.href='/transactions'"><i class="fa-solid fa-arrow-left-long"></i></button>
     </div>
     <div class="main--center">
-        <form action="/transactions/add" autocomplete="off" method="post">
+        <form action="{{ url_for('transactions.add_transaction') }}" autocomplete="off" method="post">
             <div class="form__item">
                 <input class="form__input" id="date" name="date" placeholder=" " type="date" value="{{ today }}">
                 <label for="date">Date</label>

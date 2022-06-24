@@ -11,19 +11,19 @@
 
 {% block content %} 
     <div class="settings">
-        <a class="button" href="/settings/currency">
+        <a class="button" href="{{ url_for('settings.currency') }}">
             <div class="button__container">
                 <i class="button__icon fa-solid fa-money-bills"></i>
                 <p>Currency Settings</p>
             </div>
         </a>
-        <a class="button" href="/settings/change-password">
+        <a class="button" href="{{ url_for('settings.password') }}">
             <div class="button__container">
                 <i class="button__icon fa-solid fa-lock"></i>
                 <p>Change Password</p>
             </div>
         </a>
-        <a class="button button--red" href="/settings/remove-account">
+        <a class="button button--red" href="{{ url_for('settings.remove') }}">
             <div class="button__container">
                 <i class="button__icon fa-regular fa-circle-xmark"></i>
                 <p>Remove Account</p>

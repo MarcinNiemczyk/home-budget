@@ -54,7 +54,6 @@ function removeTransaction(transactionId) {
     })
 }
 
-
 // Drop down table on smaller screens
 function tableToggle(tr) {
     tr.forEach(row => {

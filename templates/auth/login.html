@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Register
+    Login
 {% endblock %}
 
 
 {% block content %} 
     <div class="form__head"></div>
-    <form action="/register" autocomplete="off" method="post">
+    <form action="/login" autocomplete="off" method="post">
         <div class="form__item">
             <input class="form__input" id="username" name="username" placeholder=" " type="text">
             <label for="username">Username</label>
@@ -16,11 +16,7 @@
             <input class="form__input" id="password" name="password" placeholder=" " type="password">
             <label for="password">Password</label>
         </div>
-        <div class="form__item">
-            <input class="form__input" id="confirm_password" name="confirm_password" placeholder=" " type="password">
-            <label for="confirm_password">Confirm Password</label>
-        </div>
-        <a class="form__redirect" href="/login">Already have account?</a>
-        <button class="form__button" type="submit">Sign Up</button>
+        <a class="form__redirect" href="{{ url_for('auth.register') }}">Create new account</a>
+        <button class="form__button" type="submit">Log In</button>
     </form>
 {% endblock %}
