@@ -31,10 +31,12 @@ def create_app():
     from .views.home import home
     from .views.settings import settings
     from .views.transactions import transactions
+    from .views.planning import planning
 
     app.register_blueprint(auth)
     app.register_blueprint(home)
     app.register_blueprint(settings)
     app.register_blueprint(transactions)
+    app.register_blueprint(planning)
 
     return app

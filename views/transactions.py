@@ -12,7 +12,7 @@ transactions = Blueprint('transactions', __name__)
 @transactions.route('/transactions/<int:year>/<int:month>/<transaction_type>', methods=['GET', 'POST'])
 @login_required
 def transactions_page(year, month, transaction_type):
-    """Show usertransactions and allow him to modify data."""
+    """Show user transactions and allow him to modify data."""
 
     # Prevent user to access wrong page
     if month < 0 or month > 12:
