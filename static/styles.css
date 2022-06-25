@@ -839,7 +839,7 @@ form {
     margin-bottom: 50px;
     text-align: center;
     text-transform: uppercase;
-    width: 30%;
+    width: 35%;
 }
 
 .planning__save:hover {
@@ -917,6 +917,10 @@ form {
 
     .planning__category {
         padding-right: 10%;
+    }
+
+    .planning__save {
+        width: 50%;
     }
 }
 

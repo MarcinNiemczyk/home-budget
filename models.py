@@ -1,3 +1,4 @@
+from email.policy import default
 from flask import redirect, session
 from functools import wraps
 from datetime import date
@@ -47,6 +48,8 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(150))
     transactions = db.relationship('Transactions')
+    planned_outcomes = db.relationship('PlannedOutcomes')
+    planned_incomes = db.relationship('PlannedIncomes')
 
 class Transactions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -56,6 +59,23 @@ class Transactions(db.Model):
     category = db.Column(db.String(20))
     date = db.Column(db.Date, default=date.today())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class PlannedOutcomes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(20))
+    amount = db.Column(db.Integer)
+    month = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class PlannedIncomes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(20))
+    amount = db.Column(db.Integer)
+    month = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 # Set up database schemas used for json
 class TransactionsSchema(ma.SQLAlchemyAutoSchema):

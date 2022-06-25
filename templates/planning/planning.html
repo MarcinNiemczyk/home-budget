@@ -55,30 +55,49 @@
     
     
     <div class="planning__content">
-        <form action="" class="planning__outcomes" autocomplete="off" method="post">
+        <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__outcomes" autocomplete="off" method="post">
             <h2 class="planning__heading">Outcomes</h2>
             <div class="planning__table">
-                {% for category in outcomes %}
-                    <div class="planning__category">
-                        <input type="text" name="{{ category }}" id="{{ category }}" value="0">
-                        <label for="{{ category }}">{{ category }}</label>
-                    </div>
-                {% endfor %}
+                {% if planned_outcomes %}
+                    {% for record in planned_outcomes %} 
+                        <div class="planning__category">
+                            <input type="text" name="{{ record.category }}" id="{{ record.category }}" value="{{ record.amount }}">
+                            <label for="{{ record.category }}">{{ record.category }}</label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for category in outcomes %}
+                        <div class="planning__category">
+                            <input type="text" name="{{ category }}" id="{{ category }}" value="0">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            <input class="planning__save" type="submit" value="Save">
+            <input class="planning__save" type="submit" value="Update Outcomes" name="save_button">
         </form>
 
-        <form action="" class="planning__incomes" autocomplete="off" method="post">
+
+        <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__incomes" autocomplete="off" method="post">
             <h2 class="planning__heading">Incomes</h2>
             <div class="planning__table">
-                {% for category in incomes %}
-                    <div class="planning__category">
-                        <input type="text" name="{{ category }}" id="{{ category }}" value="0">
-                        <label for="{{ category }}">{{ category }}</label>
-                    </div>
-                {% endfor %}
+                {% if planned_incomes %}
+                    {% for record in planned_incomes %} 
+                        <div class="planning__category">
+                            <input type="text" name="{{ record.category }}" id="{{ record.category }}" value="{{ record.amount }}">
+                            <label for="{{ record.category }}">{{ record.category }}</label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for category in incomes %}
+                        <div class="planning__category">
+                            <input type="text" name="{{ category }}" id="{{ category }}" value="0">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            <input class="planning__save" type="submit" value="Save">
+            <input class="planning__save" type="submit" value="Update Incomes" name="save_button">
         </form>
     </div>
 {% endblock %}

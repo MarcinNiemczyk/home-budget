@@ -15,11 +15,11 @@ def transactions_page(year, month, transaction_type):
     """Show user transactions and allow him to modify data."""
 
     # Prevent user to access wrong page
-    if month < 0 or month > 12:
-        flash('Invalid month', category='error')
-        return redirect(url_for('transactions.transactions_page'))
     if year not in YEARS:
         flash('Invalid year', category='error')
+        return redirect(url_for('transactions.transactions_page'))
+    if month < 0 or month > 12:
+        flash('Invalid month', category='error')
         return redirect(url_for('transactions.transactions_page'))
     if transaction_type not in TRANSACTION_TYPES:
         flash('Invalid transaction type', category='error')
