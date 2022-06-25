@@ -8,7 +8,7 @@ import json
 
 transactions = Blueprint('transactions', __name__)
 
-@transactions.route('/transactions', defaults={'year': datetime.today().year, 'month': datetime.today().month, 'transaction_type': 'all'})
+@transactions.route('/transactions', defaults={'year': date.today().year, 'month': date.today().month, 'transaction_type': 'all'})
 @transactions.route('/transactions/<int:year>/<int:month>/<transaction_type>', methods=['GET', 'POST'])
 @login_required
 def transactions_page(year, month, transaction_type):
