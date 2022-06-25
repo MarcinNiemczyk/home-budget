@@ -34,7 +34,7 @@
                             <a {% if active_page == "/transactions" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('transactions.transactions_page') }}"><i class="fa-solid fa-list-ul"></i>Transactions</a>
                         </li>
                         <li class="navbar__item">
-                            <a {% if active_page == "/planning" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="#"><i class="fa-regular fa-clock"></i></i>Planning</a>
+                            <a {% if active_page == "/planning" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('planning.planning_page') }}"><i class="fa-regular fa-clock"></i></i>Planning</a>
                         </li>
                         <li class="navbar__item">
                             <a {% if active_page == "/settings" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('settings.settings_page') }}"><i class="fa-solid fa-gear"></i>Settings</a>

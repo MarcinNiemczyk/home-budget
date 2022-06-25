@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% set active_page = "/planning" %}
+
+{% block title %}
+    Planning
+{% endblock %}
+
+{% block heading %}
+    Planning
+{% endblock %}
+
+{% block content %} 
+    <div class="planning">
+        <div class="planning__menu">
+            <div class="select">
+                <div class="select__options months">
+                    {% for month in months %}
+                        <div class="select__option months__option">
+                            <input type="radio" class="radio" id="{{ months[month] }}" name="{{ month }}" value="{{ months[month] }}" {% if selected_month == month %}checked{% endif %} 
+                                   onclick="window.location.href='/planning/{{ selected_year }}/{{ month }}'">
+                            <label for="{{ months[month] }}" {% if selected_month == month %}class="active"{% endif %}>{{ months[month] }}</label>
+                        </div>
+                    {% endfor %}
+            
+                </div>
+                <div class="select__selected months__selected">{{ months[selected_month] }}</div>
+                <div class="select__head">Month</div>
+            </div>
+            <div class="select">
+                <div class="select__options years">
+                    {% for year in years %}
+                        <div class="select__option years__option">
+                                <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %} 
+                                    onclick="window.location.href='/planning/{{ year }}/{{ selected_month }}'">
+                                <label for="{{ year }}" {% if selected_year == year %}class="active"{% endif %}>
+                                    {% if year == 0 %}
+                                        All
+                                    {% else %}
+                                        {{ year }}
+                                    {% endif %}
+                                </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="select__selected years__selected">
+                    {% if selected_year == 0 %}
+                        All 
+                    {% else %} 
+                        {{ selected_year }}
+                    {% endif %}
+                </div>
+                <div class="select__head">Year</div>
+        </div>
+    </div>  
+    
+    
+    <div class="planning__content">
+        <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__outcomes" autocomplete="off" method="post">
+            <h2 class="planning__heading">Outcomes</h2>
+            <div class="planning__table">
+                {% if planned_outcomes %}
+                    {% for record in planned_outcomes %} 
+                        <div class="planning__category">
+                            <input type="text" name="{{ record.category }}" id="{{ record.category }}" value="{{ record.amount }}">
+                            <label for="{{ record.category }}">{{ record.category }}</label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for category in outcomes %}
+                        <div class="planning__category">
+                            <input type="text" name="{{ category }}" id="{{ category }}" value="0">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <input class="planning__save" type="submit" value="Update Outcomes" name="save_button">
+        </form>
+
+
+        <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__incomes" autocomplete="off" method="post">
+            <h2 class="planning__heading">Incomes</h2>
+            <div class="planning__table">
+                {% if planned_incomes %}
+                    {% for record in planned_incomes %} 
+                        <div class="planning__category">
+                            <input type="text" name="{{ record.category }}" id="{{ record.category }}" value="{{ record.amount }}">
+                            <label for="{{ record.category }}">{{ record.category }}</label>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for category in incomes %}
+                        <div class="planning__category">
+                            <input type="text" name="{{ category }}" id="{{ category }}" value="0">
+                            <label for="{{ category }}">{{ category }}</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <input class="planning__save" type="submit" value="Update Incomes" name="save_button">
+        </form>
+    </div>
+{% endblock %}

@@ -520,29 +520,6 @@ form {
     outline: 2px solid rgb(var(--button-color));
 }
 
-.transactions {
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    margin-top: 50px;
-    width: 80%;
-}
-
-.transactions__menu {
-    align-items: center;
-    display: flex;
-    height: 100px;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.transactions__new {
-    font-size: 20px;
-    max-width: 180px;
-    max-height: 50px;
-}
-
 .select {
     display: flex;
     flex-direction: column-reverse;
@@ -677,6 +654,29 @@ form {
     outline: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.transactions {
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    margin-top: 50px;
+    width: 80%;
+}
+
+.transactions__menu {
+    align-items: center;
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.transactions__new {
+    font-size: 20px;
+    max-width: 180px;
+    max-height: 50px;
+}
+
 .transactions-table__container {
     display: flex;
     justify-content: center;
@@ -730,6 +730,123 @@ form {
 
 .table-drop {
     display: none;
+}
+
+.planning {
+    display: flex;
+    flex-direction: column;
+}
+
+.planning__menu {
+    align-items: center;
+    display: flex;
+    height: 100px;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.planning__menu .select {
+    margin: 0 20px;
+}
+
+.planning__content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.planning__outcomes,
+.planning__incomes {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 20px;
+    width: 50%;
+}
+
+.planning__heading,
+.planning__table {
+    width: 100%;
+}
+
+.planning__heading {
+    height: 60px;
+    text-align: center;
+}
+
+.planning__table {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 400px;
+}
+
+.planning__category {
+    align-items: center;
+    color: rgb(180, 180, 180);
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-direction: row-reverse;
+    height: 40px;
+    justify-content: flex-start;
+    padding-right: 20%;
+    width: 100%;
+}
+
+.planning__category input {
+    border: none;
+    background-color: rgb(var(--secondary-color));
+    color: rgb(180, 180, 180);
+    font-size: 16px;
+    height: 80%;
+    padding: 5px;
+    text-align: left;
+    width: 80px;
+}
+
+.planning__category input:focus {
+    color: white;
+    outline: none;
+}
+
+.planning__category::after {
+    color: rgba(180, 180, 180, 0.15);
+    content: "$";
+    display: block;
+    position: absolute;
+    margin-right: 3px;
+}
+
+.planning__category label {
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    margin-right: 50px;
+    padding-right: 50px;
+}
+
+.planning__category label:hover {
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    color: white;
+}
+
+.planning__save {
+    background-color: rgb(var(--background-color));
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: rgb(120, 120, 120);
+    height: 60px;
+    margin-bottom: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 35%;
+}
+
+.planning__save:hover {
+    border-bottom: 2px solid rgb(var(--gradient-color-purple));
+    color: rgb(var(--gradient-color-blue));
+    cursor: pointer;
+    font-weight: bold;
 }
 
 
@@ -788,6 +905,22 @@ form {
 
     .transactions-table td {
         font-size: 14px;
+    }
+
+    .planning {
+        width: 90%;
+    }
+
+    .planning__table {
+        width: 300px;
+    }
+
+    .planning__category {
+        padding-right: 10%;
+    }
+
+    .planning__save {
+        width: 50%;
     }
 }
 
@@ -947,6 +1080,11 @@ form {
     .select__options.active {
         max-height: 140px;
     }
+
+    .planning__save {
+        font-size: 14px;
+        width: 50%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1100,6 +1238,24 @@ form {
     .table-remove {
         background-color: rgba(255, 62, 62, 0.7);
     }
+
+    .planning__content {
+        flex-direction: column;
+    }
+
+    .planning__outcomes,
+    .planning__incomes {
+        margin: 0;
+        width: 100%;
+    }
+
+    .planning__table {
+        width: 80%;
+    }
+
+    .planning__category {
+        padding-right: 25%;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1125,6 +1281,10 @@ form {
 
     .transactions-table td {
         padding-left: 45%;
+    }
+
+    .planning__category {
+        padding-right: 0;
     }
 }
 

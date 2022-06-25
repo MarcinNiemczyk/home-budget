@@ -7,7 +7,7 @@
 
 {% block content %} 
     <div class="form__head"></div>
-    <form action="/register" autocomplete="off" method="post">
+    <form action="{{ url_for('auth.register') }}" autocomplete="off" method="post">
         <div class="form__item">
             <input class="form__input" id="username" name="username" placeholder=" " type="text">
             <label for="username">Username</label>

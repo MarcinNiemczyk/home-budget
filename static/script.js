@@ -115,4 +115,7 @@ if (currentPage.includes('/transactions')) {
         tr = document.querySelectorAll('.transactions-table tr')
         tableToggle(tr)
     })
+} else if (currentPage.includes('/planning')) {
+    dropdownMenu('months')
+    dropdownMenu('years')
 }
