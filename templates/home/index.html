@@ -1,0 +1,202 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Overview
+{% endblock %}
+
+{% block heading %}
+    Overview
+{% endblock %}
+
+{% block content %} 
+    <div class="summary">
+        <div class="summary__menu">
+            <div class="select">
+                <div class="select__options months">
+                    {% for month in months %}
+                        <div class="select__option months__option">
+                            <input type="radio" class="radio" id="{{ months[month] }}" name="{{ month }}" value="{{ months[month] }}" {% if selected_month == month %}checked{% endif %} 
+                                   onclick="window.location.href='/{{ selected_year }}/{{ month }}'">
+                            <label for="{{ months[month] }}" {% if selected_month == month %}class="active"{% endif %}>{{ months[month] }}</label>
+                        </div>
+                    {% endfor %}
+            
+                </div>
+                <div class="select__selected months__selected">{{ months[selected_month] }}</div>
+                <div class="select__head">Month</div>
+            </div>
+            <div class="select">
+                <div class="select__options years">
+                    {% for year in years %}
+                        <div class="select__option years__option">
+                                <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %} 
+                                    onclick="window.location.href='/{{ year }}/{{ selected_month }}'">
+                                <label for="{{ year }}" {% if selected_year == year %}class="active"{% endif %}>
+                                    {% if year == 0 %}
+                                        All
+                                    {% else %}
+                                        {{ year }}
+                                    {% endif %}
+                                </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="select__selected years__selected">
+                    {% if selected_year == 0 %}
+                        All 
+                    {% else %} 
+                        {{ selected_year }}
+                    {% endif %}
+                </div>
+                <div class="select__head">Year</div>
+            </div>
+            <form action="" class="summary__form" method="post" autocomplete="off">
+                <input type="submit" value="set">
+                <input type="text" name="starting-balance" id="starting-balance" value="0">
+                <label for="starting-balance">Starting Balance</label>
+            </form>
+        </div>
+
+        <div class="summary__content">
+            <div class="balance">
+                <div class="balance__starting">
+                    <div class="balance__chart">
+                        <div class="balance__chart--starting"></div>
+                    </div>
+                    <h2>Starting balance</h2>
+                    <p>1250$</p>
+                </div>
+                <div class="balance__final">
+                    <div class="balance__chart">
+                        <div class="balance__chart--final"></div>
+                    </div>
+                    <h2>Final balance</h2>
+                    <p>700$</p>
+                </div>
+            </div>
+            <div class="savings">
+                <div class="savings__content">
+                    <div class="savings__top">
+                        <h2>-38%</h2>
+                        <p>Savings decrease</p>
+                    </div>
+                    <div class="savings__bottom">
+                        <h2>-438$</h2>
+                        <p>Saved this month</p>
+                    </div>
+                </div>
+            </div>
+            <div class="charts">
+                <h2>Outcomes</h2>
+                <div class="charts__wrapper">
+                    <div class="charts__label">
+                        <h3>Planned</h3>
+                        <p>1020$</p>
+                    </div>
+                    <div class="charts__chart">
+
+                    </div>
+                </div>
+                <div class="charts__wrapper">
+                    <div class="charts__label">
+                        <h3>Real</h3>
+                        <p>1020$</p>
+                    </div>
+                    <div class="charts__chart">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="charts">
+                <h2>Incomes</h2>
+                <div class="charts__wrapper">
+                    <div class="charts__label">
+                        <h3>Planned</h3>
+                        <p>920$</p>
+                    </div>
+                    <div class="charts__chart">
+                        
+                    </div>
+                </div>
+                <div class="charts__wrapper">
+                    <div class="charts__label">
+                        <h3>Real</h3>
+                        <p>700$</p>
+                    </div>
+                    <div class="charts__chart">
+                    </div>
+                </div>
+            </div>
+            <div class="summary-table">
+                <table class="summary-table__outcomes">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Planned</th>
+                            <th>Real</th>
+                            <th>Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sum</td>
+                            <td>958$</td>
+                            <td>693$</td>
+                            <td>265$</td>
+                        </tr>
+                        <tr>
+                            <td>Grocery</td>
+                            <td>100$</td>
+                            <td>47$</td>
+                            <td>53$</td>
+                        </tr>
+                        <tr>
+                            <td>Grocery</td>
+                            <td>100$</td>
+                            <td>47$</td>
+                            <td>53$</td>
+                        </tr>
+                        <tr>
+                            <td>Grocery</td>
+                            <td>100$</td>
+                            <td>47$</td>
+                            <td>53$</td>
+                        </tr>
+                        <tr>
+                            <td>Grocery</td>
+                            <td>100$</td>
+                            <td>47$</td>
+                            <td>53$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="summary-table">
+                <table class="summary-table__incomes">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Planned</th>
+                            <th>Real</th>
+                            <th>Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sum</td>
+                            <td>958$</td>
+                            <td>693$</td>
+                            <td>265$</td>
+                        </tr>
+                        <tr>
+                            <td>Grocery</td>
+                            <td>100$</td>
+                            <td>47$</td>
+                            <td>53$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

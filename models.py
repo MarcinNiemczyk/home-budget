@@ -1,4 +1,3 @@
-from email.policy import default
 from flask import redirect, session
 from functools import wraps
 from datetime import date

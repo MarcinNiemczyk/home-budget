@@ -115,7 +115,8 @@ if (currentPage.includes('/transactions')) {
         tr = document.querySelectorAll('.transactions-table tr')
         tableToggle(tr)
     })
-} else if (currentPage.includes('/planning')) {
+// Every page needs to have months and years filter
+} else if (!currentPage.includes('/settings')) {
     dropdownMenu('months')
     dropdownMenu('years')
-}
+} 
