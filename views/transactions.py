@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, jsonify, request, redirect, render_template, session, url_for
-from sqlalchemy import func, extract
+from sqlalchemy import extract
 from datetime import date, datetime
 from ..models import login_required, CATEGORIES, TRANSACTION_TYPES, YEARS, MONTHS, Transactions, TransactionsSchema
 from .. import db

@@ -140,34 +140,18 @@
                     <tbody>
                         <tr>
                             <td>Sum</td>
-                            <td>958$</td>
-                            <td>693$</td>
-                            <td>265$</td>
+                            <td>{{ sum['planned'] }}$</td>
+                            <td>{{ sum['real'] }}$</td>
+                            <td {% if sum['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>{{ sum['difference'] }}$</td>
                         </tr>
-                        <tr>
-                            <td>Grocery</td>
-                            <td>100$</td>
-                            <td>47$</td>
-                            <td>53$</td>
-                        </tr>
-                        <tr>
-                            <td>Grocery</td>
-                            <td>100$</td>
-                            <td>47$</td>
-                            <td>53$</td>
-                        </tr>
-                        <tr>
-                            <td>Grocery</td>
-                            <td>100$</td>
-                            <td>47$</td>
-                            <td>53$</td>
-                        </tr>
-                        <tr>
-                            <td>Grocery</td>
-                            <td>100$</td>
-                            <td>47$</td>
-                            <td>53$</td>
-                        </tr>
+                        {% for outcome in outcomes %}
+                            <tr>
+                                <td>{{ outcome['category'] }}</td>
+                                <td>{{ outcome['planned'] }}$</td>
+                                <td>{{ outcome['real'] }}$</td>
+                                <td {% if outcome['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>{{ outcome['difference'] }}$</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
