@@ -1,7 +1,8 @@
-from flask import render_template, Blueprint, session
+from flask import flash, redirect, render_template, Blueprint, request, session, url_for
 from sqlalchemy import extract
 from datetime import date
-from ..models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, Transactions, login_required
+from ..models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, login_required
+from .. import db
 
 home = Blueprint('home', __name__)
 
@@ -23,8 +24,41 @@ def index(year, month):
     outcomes_chart_length = calculate_chart_length(outcomes_sum)
     incomes_chart_length = calculate_chart_length(incomes_sum)
 
+    # Get user's starting balance
+    starting_balance = StartingBalance.query.filter_by(user_id=session['user_id'], month=month, year=year).first()
+
+    # Update starting balance
+    if request.method == 'POST':
+        updated_amount = request.form.get('starting-balance')
+        # Validate input
+        try:
+            updated_amount = int(updated_amount)
+        except ValueError:
+            flash('Incorrect amount', category='error')
+            return redirect(url_for('home.index', year=year, month=month))
+        if updated_amount < 0 or updated_amount > 9999999:
+            flash('Incorrect amount', category='error')
+            return redirect(url_for('home.index', year=year, month=month))
+        
+        # Update database
+        new_starting_balance = StartingBalance(amount=updated_amount, month=month, year=year, user_id=session['user_id'])
+        if starting_balance:
+            starting_balance.amount = updated_amount
+        else:
+            db.session.add(new_starting_balance)
+        db.session.commit()
+
+        flash('Starting balance updated!', category='success')
+        return redirect(url_for('home.index', year=year, month=month))
+
+    # Assign int value (amount) to starting balance
+    if starting_balance:
+        starting_balance = starting_balance.amount
+    else:
+        starting_balance = 0
+
     return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
-            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length)
+            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length, starting_balance=starting_balance)
 
 
 def get_statement(year, month, transaction_type):

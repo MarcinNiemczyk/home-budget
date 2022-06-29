@@ -49,6 +49,7 @@ class User(db.Model):
     transactions = db.relationship('Transactions')
     planned_outcomes = db.relationship('PlannedOutcomes')
     planned_incomes = db.relationship('PlannedIncomes')
+    starting_balance = db.relationship('StartingBalance')
 
 class Transactions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +76,12 @@ class PlannedIncomes(db.Model):
     year = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+class StartingBalance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Integer)
+    month = db.Column(db.Integer)
+    year = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 # Set up database schemas used for json
 class TransactionsSchema(ma.SQLAlchemyAutoSchema):

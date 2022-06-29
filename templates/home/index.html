@@ -50,9 +50,9 @@
                 </div>
                 <div class="select__head">Year</div>
             </div>
-            <form action="" class="summary__form" method="post" autocomplete="off">
+            <form action="{{ url_for('home.index', year=selected_year, month=selected_month) }}" class="summary__form" method="post" autocomplete="off">
                 <input type="submit" value="set">
-                <input type="text" name="starting-balance" id="starting-balance" value="0">
+                <input type="text" name="starting-balance" id="starting-balance" value="{{ starting_balance }}">
                 <label for="starting-balance">Starting Balance</label>
             </form>
         </div>
