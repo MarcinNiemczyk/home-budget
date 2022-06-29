@@ -1,7 +1,7 @@
 from flask import render_template, Blueprint, session
 from sqlalchemy import extract
 from datetime import date
-from ..models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, Transactions, login_required
+from ..models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, Transactions, login_required
 
 home = Blueprint('home', __name__)
 
@@ -15,17 +15,19 @@ def index(year, month):
     months = MONTHS.copy()
     del months[0]
 
-    outcomes, sum = get_outcomes(year, month)
+    outcomes, outcomes_sum = get_statement(year, month, 'outcome')
+    incomes, incomes_sum = get_statement(year, month, 'income')
 
 
-    return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, sum=sum)
+    return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
+            incomes=incomes, incomes_sum=incomes_sum)
 
 
-def get_outcomes(year, month):
-    """placeholder"""
+def get_statement(year, month, transaction_type):
+    """Get monthly statement of declared type and return list of dictionaries for each category and overall sum dictionary"""
 
     # Initiate output data
-    outcomes = []
+    statements = []
     sum = {
         'planned': 0,
         'real': 0,
@@ -33,40 +35,47 @@ def get_outcomes(year, month):
     }
 
     # Handle every single category data individually
-    for category in CATEGORIES['outcomes']:
-        outcome = {
+    for category in CATEGORIES[transaction_type]:
+        statement = {
             'category': category,
             'planned': 0,
             'real': 0,
             'difference': 0
         }
-        # Get planned data and store it in dictionary
-        planned = PlannedOutcomes.query.filter_by(user_id=session['user_id'], month=month, year=year, category=category).first()
+        # Handle planned data query for each transaction type
+        if transaction_type == 'outcome':
+            planned = PlannedOutcomes.query.filter_by(user_id=session['user_id'], month=month, year=year, category=category).first()
+        else:
+            planned = PlannedIncomes.query.filter_by(user_id=session['user_id'], month=month, year=year, category=category).first()
+
+        # Ensure user has planned expenses
         if planned:
-            outcome['planned'] = planned.amount
+            statement['planned'] = planned.amount
             sum['planned'] += planned.amount
 
-        # Get transactions data
-        transactions = Transactions.query.filter_by(user_id=session['user_id'], category=category, type='outcome').filter(\
+        # Query database for every transaction of selected type
+        transactions = Transactions.query.filter_by(user_id=session['user_id'], category=category, type=transaction_type).filter(\
                        extract('year', Transactions.date)==year).filter(extract('month', Transactions.date)==month).all()
 
         # Sum every transaction
         transactions_sum = 0
-        if transactions:
-            for transaction in transactions:
-                transactions_sum += transaction.amount
+        for transaction in transactions:
+            transactions_sum += transaction.amount
 
         # Store transactions sum as real outcomes in dictionary
-        outcome['real'] = transactions_sum
+        statement['real'] = transactions_sum
         sum['real'] += transactions_sum
     
         # Add difference
-        difference = outcome['planned'] - outcome['real']
-        outcome['difference'] = difference
+        if transaction_type == 'income':
+            difference = statement['real'] - statement['planned']
+        else:
+            difference = statement['planned'] - statement['real']
+        statement['difference'] = difference
         sum['difference'] += difference
 
         # Add each category dictionary to list
-        outcomes.append(outcome)
+        statements.append(statement)
 
 
-    return outcomes, sum
+    return statements, sum

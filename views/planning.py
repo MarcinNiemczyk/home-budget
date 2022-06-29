@@ -40,7 +40,7 @@ def planning_page(year, month):
         # Handle request for planned outcomes
         if request.form.get('save_button') == 'Update Outcomes':
             # Validate every category input
-            for category in CATEGORIES['outcomes']:
+            for category in CATEGORIES['outcome']:
                 # Ensure amount is integer
                 try:
                     amount = int(request.form.get(category))
@@ -70,7 +70,7 @@ def planning_page(year, month):
         # Handle request for planned incomes
         elif request.form.get('save_button') == 'Update Incomes':
             # Validate every category input
-            for category in CATEGORIES['incomes']:
+            for category in CATEGORIES['income']:
                 # Ensure amount is integer
                 try:
                     amount = int(request.form.get(category))
@@ -97,5 +97,5 @@ def planning_page(year, month):
 
             return redirect(url_for('planning.planning_page', year=year, month=month))
         
-    return render_template('planning/planning.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'], years=YEARS[1::], 
+    return render_template('planning/planning.html', outcomes=CATEGORIES['outcome'], incomes=CATEGORIES['income'], years=YEARS[1::], 
            months=months, selected_year=year, selected_month=month, planned_outcomes=planned_outcomes, planned_incomes=planned_incomes)

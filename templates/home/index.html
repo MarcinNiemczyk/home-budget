@@ -140,16 +140,20 @@
                     <tbody>
                         <tr>
                             <td>Sum</td>
-                            <td>{{ sum['planned'] }}$</td>
-                            <td>{{ sum['real'] }}$</td>
-                            <td {% if sum['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>{{ sum['difference'] }}$</td>
+                            <td>{{ outcomes_sum['planned'] }}$</td>
+                            <td>{{ outcomes_sum['real'] }}$</td>
+                            <td {% if outcomes_sum['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>
+                                {{ outcomes_sum['difference'] }}$
+                            </td>
                         </tr>
                         {% for outcome in outcomes %}
                             <tr>
                                 <td>{{ outcome['category'] }}</td>
                                 <td>{{ outcome['planned'] }}$</td>
                                 <td>{{ outcome['real'] }}$</td>
-                                <td {% if outcome['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>{{ outcome['difference'] }}$</td>
+                                <td {% if outcome['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>
+                                    {{ outcome['difference'] }}$
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -168,16 +172,22 @@
                     <tbody>
                         <tr>
                             <td>Sum</td>
-                            <td>958$</td>
-                            <td>693$</td>
-                            <td>265$</td>
+                            <td>{{ incomes_sum['planned'] }}$</td>
+                            <td>{{ incomes_sum['real'] }}$</td>
+                            <td {% if incomes_sum['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>
+                                {% if incomes_sum['difference'] > 0 %}+{% endif %}{{ incomes_sum['difference'] }}$
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Grocery</td>
-                            <td>100$</td>
-                            <td>47$</td>
-                            <td>53$</td>
-                        </tr>
+                        {% for income in incomes %}
+                            <tr>
+                                <td>{{ income['category'] }}</td>
+                                <td>{{ income['planned'] }}$</td>
+                                <td>{{ income['real'] }}$</td>
+                                <td {% if income['difference'] < 0 %}style="color: rgba(255, 60, 60, 0.8)"{% endif %}>
+                                    {% if income['difference'] > 0 %}+{% endif %}{{ income['difference'] }}$
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

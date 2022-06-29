@@ -5,8 +5,8 @@ from . import db, ma
 
 
 CATEGORIES = {
-    'outcomes': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
-    'incomes': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
+    'outcome': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
+    'income': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
 }
 
 MONTHS = {
