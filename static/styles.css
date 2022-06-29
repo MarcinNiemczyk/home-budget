@@ -981,7 +981,6 @@ form {
 
 .balance__chart--final {
     background: linear-gradient(rgb(var(--background-color)), rgb(var(--gradient-color-purple)));
-    height: 55%;
 }
 
 .savings__content {

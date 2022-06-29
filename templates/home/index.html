@@ -29,7 +29,7 @@
                 <div class="select__options years">
                     {% for year in years %}
                         <div class="select__option years__option">
-                                <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %} 
+                                <input type="radio" class="radio" id="{{ year }}" name="{{ year }}" value="{{ year }}" {% if selected_year == year %}checked{% endif %}
                                     onclick="window.location.href='/{{ year }}/{{ selected_month }}'">
                                 <label for="{{ year }}" {% if selected_year == year %}class="active"{% endif %}>
                                     {% if year == 0 %}
@@ -61,17 +61,17 @@
             <div class="balance">
                 <div class="balance__starting">
                     <div class="balance__chart">
-                        <div class="balance__chart--starting"></div>
+                        <div class="balance__chart--starting" style="height: {{ balance_chart_length[0] }}%"></div>
                     </div>
                     <h2>Starting balance</h2>
-                    <p>1250$</p>
+                    <p>{{ starting_balance }}$</p>
                 </div>
                 <div class="balance__final">
                     <div class="balance__chart">
-                        <div class="balance__chart--final"></div>
+                        <div class="balance__chart--final" style="height: {{ balance_chart_length[1] }}%"></div>
                     </div>
                     <h2>Final balance</h2>
-                    <p>700$</p>
+                    <p>{{ final_balance }}$</p>
                 </div>
             </div>
             <div class="savings">

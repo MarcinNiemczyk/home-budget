@@ -21,8 +21,8 @@ def index(year, month):
     incomes, incomes_sum = get_statement(year, month, 'income')
 
     # Get length of outcomes/incomes charts
-    outcomes_chart_length = calculate_chart_length(outcomes_sum)
-    incomes_chart_length = calculate_chart_length(incomes_sum)
+    outcomes_chart_length = calculate_chart_length(outcomes_sum['planned'], outcomes_sum['real'])
+    incomes_chart_length = calculate_chart_length(incomes_sum['planned'], incomes_sum['real'])
 
     # Get user's starting balance
     starting_balance = StartingBalance.query.filter_by(user_id=session['user_id'], month=month, year=year).first()
@@ -57,8 +57,13 @@ def index(year, month):
     else:
         starting_balance = 0
 
+    final_balance = starting_balance - outcomes_sum['real'] + incomes_sum['real']
+    balance_chart_length = calculate_chart_length(starting_balance, final_balance)
+    print(balance_chart_length)
+
     return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
-            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length, starting_balance=starting_balance)
+            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length, starting_balance=starting_balance,
+            final_balance=final_balance, balance_chart_length=balance_chart_length)
 
 
 def get_statement(year, month, transaction_type):
@@ -118,21 +123,30 @@ def get_statement(year, month, transaction_type):
     return statements, sum
 
 
-def calculate_chart_length(sum_dict):
-    """Return length values for sum transaction charts"""
+def calculate_chart_length(n1, n2):
+    """Return length values for charts"""
     
-    # Handle zeros scenario
-    if sum_dict['planned'] == 0 and sum_dict['real'] == 0:
-        chart_length = [100, 100]
-    elif sum_dict['planned'] == 0:
-        chart_length = [0, 100]
-    elif sum_dict['real'] == 0:
+    # Handle negative final balance
+    if n2 < 0:
         chart_length = [100, 0]
+    # Handle minus and zero values
+    elif n1 == 0 and n2 == 0:
+        chart_length = [100, 100]
+    elif n1 == 0:
+        if n2 > 0:
+            chart_length = [0, 100]
+        else:
+            chart_length = [100, 0]
+    elif n2 == 0:
+        if n1 > 0:
+            chart_length = [100, 0]
+        else:
+            chart_length = [0, 100]
     # Calculate ratio
     else:
-        if sum_dict['planned'] > sum_dict['real']:
-            chart_length = [100, round((sum_dict['real'] / sum_dict['planned']) * 100)]
+        if n1 > n2:
+            chart_length = [100, round((n2 / n1) * 100)]
         else:
-            chart_length = [round((sum_dict['planned'] / sum_dict['real']) * 100), 100]
+            chart_length = [round((n1 / n2) * 100), 100]
 
     return chart_length
