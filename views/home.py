@@ -1,3 +1,4 @@
+from decimal import DivisionByZero
 from flask import flash, redirect, render_template, Blueprint, request, session, url_for
 from sqlalchemy import extract
 from datetime import date
@@ -57,13 +58,20 @@ def index(year, month):
     else:
         starting_balance = 0
 
+    # Final and starting balance chart
     final_balance = starting_balance - outcomes_sum['real'] + incomes_sum['real']
     balance_chart_length = calculate_chart_length(starting_balance, final_balance)
-    print(balance_chart_length)
+    
+    # Overall statistics of current month
+    try:
+        savings_increase = int(((final_balance / starting_balance) - 1) * 100)
+    except ZeroDivisionError:
+        savings_increase = final_balance
+    saved = final_balance - starting_balance
 
     return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
             incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length, starting_balance=starting_balance,
-            final_balance=final_balance, balance_chart_length=balance_chart_length)
+            final_balance=final_balance, balance_chart_length=balance_chart_length, savings_increase=savings_increase, saved=saved)
 
 
 def get_statement(year, month, transaction_type):
