@@ -15,12 +15,16 @@ def index(year, month):
     months = MONTHS.copy()
     del months[0]
 
+    # Get statements and overall sum of every category
     outcomes, outcomes_sum = get_statement(year, month, 'outcome')
     incomes, incomes_sum = get_statement(year, month, 'income')
 
+    # Get length of outcomes/incomes charts
+    outcomes_chart_length = calculate_chart_length(outcomes_sum)
+    incomes_chart_length = calculate_chart_length(incomes_sum)
 
     return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
-            incomes=incomes, incomes_sum=incomes_sum)
+            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length)
 
 
 def get_statement(year, month, transaction_type):
@@ -77,5 +81,24 @@ def get_statement(year, month, transaction_type):
         # Add each category dictionary to list
         statements.append(statement)
 
-
     return statements, sum
+
+
+def calculate_chart_length(sum_dict):
+    """Return length values for sum transaction charts"""
+    
+    # Handle zeros scenario
+    if sum_dict['planned'] == 0 and sum_dict['real'] == 0:
+        chart_length = [100, 100]
+    elif sum_dict['planned'] == 0:
+        chart_length = [0, 100]
+    elif sum_dict['real'] == 0:
+        chart_length = [100, 0]
+    # Calculate ratio
+    else:
+        if sum_dict['planned'] > sum_dict['real']:
+            chart_length = [100, round((sum_dict['real'] / sum_dict['planned']) * 100)]
+        else:
+            chart_length = [round((sum_dict['planned'] / sum_dict['real']) * 100), 100]
+
+    return chart_length

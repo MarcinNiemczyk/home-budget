@@ -91,19 +91,19 @@
                 <div class="charts__wrapper">
                     <div class="charts__label">
                         <h3>Planned</h3>
-                        <p>1020$</p>
+                        <p>{{ outcomes_sum['planned'] }}$</p>
                     </div>
                     <div class="charts__chart">
-
+                        <div class="charts__filler" style="width: {{ outcomes_chart_length[0] }}%"></div>
                     </div>
                 </div>
                 <div class="charts__wrapper">
                     <div class="charts__label">
                         <h3>Real</h3>
-                        <p>1020$</p>
+                        <p>{{ outcomes_sum['real'] }}$</p>
                     </div>
                     <div class="charts__chart">
-                        
+                        <div class="charts__filler" style="width: {{ outcomes_chart_length[1] }}%"></div>
                     </div>
                 </div>
             </div>
@@ -112,18 +112,19 @@
                 <div class="charts__wrapper">
                     <div class="charts__label">
                         <h3>Planned</h3>
-                        <p>920$</p>
+                        <p>{{ incomes_sum['planned'] }}$</p>
                     </div>
                     <div class="charts__chart">
-                        
+                        <div class="charts__filler" style="width: {{ incomes_chart_length[0] }}%"></div>
                     </div>
                 </div>
                 <div class="charts__wrapper">
                     <div class="charts__label">
                         <h3>Real</h3>
-                        <p>700$</p>
+                        <p>{{ incomes_sum['real'] }}$</p>
                     </div>
                     <div class="charts__chart">
+                        <div class="charts__filler" style="width: {{ incomes_chart_length[1] }}%"></div>
                     </div>
                 </div>
             </div>
