@@ -962,6 +962,7 @@ form {
 .balance__starting {
     align-items: flex-end;
     border-right: 1px dashed rgba(255, 255, 255, 0.1);
+    text-align: right;
 }
 
 
@@ -1112,10 +1113,6 @@ form {
     text-align: left;
 }
 
-/* .summary__content * {
-    outline: 1px solid rgba(255, 255, 255, 0.1)
-} */
-
 
 @media (max-width: 1400px) {
     .select {
@@ -1132,6 +1129,10 @@ form {
 
     .search__input {
         width: 170px;
+    }
+
+    .summary {
+        width: 90%;
     }
 }
 
@@ -1189,6 +1190,10 @@ form {
     .planning__save {
         width: 50%;
     }
+
+    .summary {
+        width: 100%;
+    }
 }
 
 @media (max-width: 992px) {
@@ -1201,6 +1206,7 @@ form {
         justify-content: flex-end;
         position: sticky;
         top: 0;
+        width: 100vw;
     }
 
     header h1 {
@@ -1327,6 +1333,10 @@ form {
         left: 0;
         top: 10%;
         width: 100%;
+    }
+
+    main {
+        width: 100vw;
     }
 
     .main--center {
@@ -1523,6 +1533,40 @@ form {
     .planning__category {
         padding-right: 25%;
     }
+
+    .summary__menu {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 0;
+    }
+
+    .summary__form {
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    .summary__content {
+        flex-wrap: wrap;
+    }
+
+    .balance,
+    .savings,
+    .charts,
+    .summary-table {
+        margin: 10px 0;
+        padding: 0;
+        width: 90%;
+    }
+
+    .summary-table__outcomes,
+    .summary-table__incomes {
+        margin: 0;
+    }
+
+    .summary-table__incomes {
+        margin-bottom: 50px;
+    }
+
 }
 
 @media (max-width: 576px) {

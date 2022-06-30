@@ -64,9 +64,9 @@ def index(year, month):
     
     # Overall statistics of current month
     try:
-        savings_increase = int(((final_balance / starting_balance) - 1) * 100)
+        savings_increase = str(int(((final_balance / starting_balance) - 1) * 100)) + '%'
     except ZeroDivisionError:
-        savings_increase = final_balance
+        savings_increase = '-'
     saved = final_balance - starting_balance
 
     return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
