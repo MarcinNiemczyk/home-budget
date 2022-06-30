@@ -16,34 +16,34 @@
     </head>
 
     <body>
+        <nav class="preload">
+            <div class="navbar__header">
+                <div class="navbar__logo">
+                    <a class="logo__link" href="/">Ho<span class="logo__link--purple">m</span><span class="logo__link--blue">e</span> budget</a>  
+                </div>
+                <div class="navbar__close">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+            <ul class="navbar">
+                    <li class="navbar__item">
+                        <a {% if active_page == "/" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('home.index') }}"><i class="fa-solid fa-chart-line"></i>Summary</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a {% if active_page == "/transactions" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('transactions.transactions_page') }}"><i class="fa-solid fa-list-ul"></i>Transactions</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a {% if active_page == "/planning" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('planning.planning_page') }}"><i class="fa-regular fa-clock"></i></i>Planning</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a {% if active_page == "/settings" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('settings.settings_page') }}"><i class="fa-solid fa-gear"></i>Settings</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a class="navbar__link" href="{{ url_for('auth.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+                    </li>
+            </ul>
+        </nav>
         <div class="wrapper">
-            <nav>
-                <ul class="navbar">
-                    <div class="navbar__header">
-                        <div class="navbar__logo">
-                            <a class="logo__link" href="/">Ho<span class="logo__link--purple">m</span><span class="logo__link--blue">e</span> budget</a>  
-                        </div>
-                        <div class="navbar__close">
-                            <i class="fa-solid fa-xmark"></i>
-                        </div>
-                    </div>
-                        <li class="navbar__item">
-                            <a {% if active_page == "/" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('home.index') }}"><i class="fa-solid fa-chart-line"></i>Summary</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a {% if active_page == "/transactions" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('transactions.transactions_page') }}"><i class="fa-solid fa-list-ul"></i>Transactions</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a {% if active_page == "/planning" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('planning.planning_page') }}"><i class="fa-regular fa-clock"></i></i>Planning</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a {% if active_page == "/settings" %} class="navbar__link active" {% else %} class="navbar__link" {% endif %} href="{{ url_for('settings.settings_page') }}"><i class="fa-solid fa-gear"></i>Settings</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a class="navbar__link" href="{{ url_for('auth.logout') }}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
-                        </li>
-                </ul>
-            </nav>
            <header>
             <div class="toggle-menu">
                 <div class="toggle-menu__bar"></div>

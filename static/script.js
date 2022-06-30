@@ -1,12 +1,16 @@
 // Navbar toggle
 const NAVBAR = document.querySelector('nav')
+const BODY = document.querySelector('body')
 
 document.querySelector('.toggle-menu').addEventListener('click', () => {
+    NAVBAR.classList.remove('preload')
     NAVBAR.classList.add('active')
+    BODY.classList.add('lock-body')
 })
 
 document.querySelector('.navbar__close').addEventListener('click', () => {
     NAVBAR.classList.remove('active')
+    BODY.classList.remove('lock-body')
 })
 
 // Handle dropdown menu display

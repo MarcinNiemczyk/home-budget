@@ -24,6 +24,7 @@ body {
     background-color: rgb(var(--background-color));
     color: white;
     font-size: 16px;
+    overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -37,13 +38,18 @@ body::-webkit-scrollbar-thumb {
     border-radius: 15px;
 }
 
+.lock-body {
+    overflow: hidden;
+}
+
 .wrapper {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr;
+    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    padding-left: 250px;
     min-height: 100vh;
     position: relative;
-    width: 100vw;
+    width: 100%;
 }
 
 header {
@@ -106,14 +112,15 @@ header h1 {
 }
 
 nav {
-    align-items: flex-start;
+    align-items: center;
     background-color: rgb(var(--nav-color));
     border-right: 2px groove rgb(var(--divider-color-dark));
     box-shadow: 2px 0px rgb(var(--divider-color-light));
     display: flex;
-    grid-row-start: 1;
-    grid-row-end: -1;
-    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: flex-start;
+    position: fixed;
     width: 250px;
     z-index: 3;
 }
@@ -211,7 +218,6 @@ nav {
 .alert {
     align-items: center;
     animation: hideAlert 1s ease-in-out 3s forwards;
-    background-color: rgb(91, 192, 222);
     box-shadow: 0px 1px 2px rgb(var(--color-black));
     display: flex;
     height: 60px;
@@ -233,15 +239,6 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-}
-
-.main--center {
-    align-items: flex-start;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    margin-top: 40px;
-    width: 100%;
 }
 
 .back-button {
@@ -447,6 +444,7 @@ form {
     flex-direction: column;
     height: 90%;
     justify-content: center;
+    margin: 10vh 0;
     width: 100%;
 }
 
@@ -1119,10 +1117,6 @@ form {
         width: 100px;
     }
 
-    .main--center {
-        margin-top: 20px;
-    }
-
     .category-wrapper {
         width: 200px;
     }
@@ -1139,10 +1133,6 @@ form {
 @media (max-width: 1200px) {
     header {
         height: 100px;
-    }
-    
-    .main--center {
-        margin-top: 10px;
     }
 
     .transactions {
@@ -1198,8 +1188,7 @@ form {
 
 @media (max-width: 992px) {
     .wrapper {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        padding-left: 0;
     }
 
     header {
@@ -1264,15 +1253,16 @@ form {
     }
 
     nav {
-        align-items: flex-start;
         border: none;
         box-shadow: 0px 0px 2px rgb(var(--color-black));
         height: 100%;
-        overflow-y: scroll;
-        position: fixed;
         transform: translate3d(-100%, 0, 0);
         transition: 0.3s ease-in-out;
         width: 350px;
+    }
+
+    nav.preload {
+        transition: none;
     }
 
     nav::-webkit-scrollbar {
@@ -1280,7 +1270,7 @@ form {
     }
 
     nav.active {
-        transform:  translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
     }
 
     .navbar {
@@ -1293,6 +1283,7 @@ form {
         justify-content: space-between;
         margin-bottom: 20px;
         position: static;
+        width: 100%;
     }
 
     .navbar__close,
@@ -1339,10 +1330,6 @@ form {
         width: 100vw;
     }
 
-    .main--center {
-        margin-top: 0;
-    }
-
     .settings__password,
     .settings__delete {
         font-size: 24px;
@@ -1370,6 +1357,7 @@ form {
     }
     
     nav {
+        overflow-y: scroll;
         width: 100%;
     }
 
