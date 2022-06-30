@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, jsonify, request, redirect, render_template, session, url_for
-from sqlalchemy import func, extract
+from sqlalchemy import extract
 from datetime import date, datetime
 from ..models import login_required, CATEGORIES, TRANSACTION_TYPES, YEARS, MONTHS, Transactions, TransactionsSchema
 from .. import db
@@ -112,10 +112,10 @@ def add_transaction():
 
         # Validate transaction category input
         category = request.form.get('category')
-        if transaction_type == 'outcome' and category not in CATEGORIES['outcomes']:
+        if transaction_type == 'outcome' and category not in CATEGORIES['outcome']:
             flash('Incorrect category', category='error')
             return redirect(url_for('transactions.add_transaction'))
-        if transaction_type == 'income' and category not in CATEGORIES['incomes']:
+        if transaction_type == 'income' and category not in CATEGORIES['income']:
             flash('Incorrect category', category='error')
             return redirect(url_for('transactions.add_transaction'))
 
@@ -127,7 +127,7 @@ def add_transaction():
 
     today = date.today()
 
-    return render_template('transactions/add-transaction.html', outcomes=CATEGORIES['outcomes'], incomes=CATEGORIES['incomes'], today=today)
+    return render_template('transactions/add-transaction.html', outcomes=CATEGORIES['outcome'], incomes=CATEGORIES['income'], today=today)
 
 
 @transactions.route('/remove-transaction', methods=['POST'])
