@@ -1388,7 +1388,7 @@ form {
 
     .select__selected {
         font-size: 16px;
-        padding: 10px 0 10px;
+        padding: 10px 0;
     }
 
     .search__icon {

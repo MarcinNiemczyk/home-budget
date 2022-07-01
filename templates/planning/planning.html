@@ -21,7 +21,6 @@
                             <label for="{{ months[month] }}" {% if selected_month == month %}class="active"{% endif %}>{{ months[month] }}</label>
                         </div>
                     {% endfor %}
-            
                 </div>
                 <div class="select__selected months__selected">{{ months[selected_month] }}</div>
                 <div class="select__head">Month</div>
@@ -52,8 +51,6 @@
                 <div class="select__head">Year</div>
         </div>
     </div>  
-    
-    
     <div class="planning__content">
         <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__outcomes" autocomplete="off" method="post">
             <h2 class="planning__heading">Outcomes</h2>
@@ -76,8 +73,6 @@
             </div>
             <input class="planning__save" type="submit" value="Update Outcomes" name="save_button">
         </form>
-
-
         <form action="{{ url_for('planning.planning_page', year=selected_year, month=selected_month) }}" class="planning__incomes" autocomplete="off" method="post">
             <h2 class="planning__heading">Incomes</h2>
             <div class="planning__table">

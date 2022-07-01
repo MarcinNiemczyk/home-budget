@@ -105,7 +105,7 @@ def get_statement(year, month, transaction_type):
             sum['planned'] += planned.amount
 
         # Query database for every transaction of selected type
-        transactions = Transactions.query.filter_by(user_id=session['user_id'], category=category, type=transaction_type).filter(\
+        transactions = Transactions.query.filter_by(user_id=session['user_id'], category=category, type=transaction_type).filter(
                        extract('year', Transactions.date)==year).filter(extract('month', Transactions.date)==month).all()
 
         # Sum every transaction
