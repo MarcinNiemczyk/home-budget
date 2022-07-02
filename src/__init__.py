@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+import os
 
 
 db = SQLAlchemy()
@@ -10,13 +11,9 @@ def create_app():
     # Configure application
     app = Flask(__name__)
 
-    # Ensure templates are auto-reloaded
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
-
     # Configure database
-    DB_NAME = "database.db"
-    app.config['SECRET_KEY'] = 'supersecretkeythatnobodycansee'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_NAME}"
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
 
     from .models import User, Transactions, PlannedOutcomes, PlannedIncomes, TransactionsSchema
 
