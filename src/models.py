@@ -1,7 +1,7 @@
 from flask import redirect, session
 from functools import wraps
 from datetime import date
-from . import db, ma
+from src import db, ma
 
 
 CATEGORIES = {

@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, request, render_template, redirect, session, url_for 
 from werkzeug.security import check_password_hash, generate_password_hash
-from ..models import Transactions, login_required, User
-from .. import db
+from src.models import Transactions, login_required, User
+from src import db
 
 
 settings = Blueprint('settings', __name__)

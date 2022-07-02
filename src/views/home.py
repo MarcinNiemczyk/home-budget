@@ -2,8 +2,8 @@ from decimal import DivisionByZero
 from flask import flash, redirect, render_template, Blueprint, request, session, url_for
 from sqlalchemy import extract
 from datetime import date
-from ..models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, login_required
-from .. import db
+from src.models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, login_required
+from src import db
 
 home = Blueprint('home', __name__)
 

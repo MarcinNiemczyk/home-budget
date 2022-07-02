@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, session, request
 from datetime import date
-from .. import db
-from ..models import CATEGORIES, MONTHS, YEARS, PlannedIncomes, PlannedOutcomes, login_required
+from src import db
+from src.models import CATEGORIES, MONTHS, YEARS, PlannedIncomes, PlannedOutcomes, login_required
 
 
 planning = Blueprint('planning', __name__)
