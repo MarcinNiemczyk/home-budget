@@ -96,6 +96,25 @@ def planning_page(year, month):
             flash('Planned incomes updated!', category='success')
 
             return redirect(url_for('planning.planning_page', year=year, month=month))
+
+    outcomes = sort_records('outcome', planned_outcomes)
+    incomes = sort_records('income', planned_incomes)
         
-    return render_template('planning/planning.html', outcomes=CATEGORIES['outcome'], incomes=CATEGORIES['income'], years=YEARS[1::], 
-           months=months, selected_year=year, selected_month=month, planned_outcomes=planned_outcomes, planned_incomes=planned_incomes)
+    return render_template('planning/planning.html', outcomes=outcomes, incomes=incomes, years=YEARS[1::], 
+           months=months, selected_year=year, selected_month=month)
+
+
+def sort_records(transaction_type, records):
+    """Sort planned list by custom categories order"""
+    sorted_records = []
+    for category in CATEGORIES[transaction_type]:
+        new_record = {
+            'category': category,
+            'amount': 0
+        }
+        for record in records:
+            if record.category == category:
+                new_record['amount'] = record.amount
+        sorted_records.append(new_record)
+
+    return sorted_records
