@@ -424,6 +424,19 @@ form {
     background-color: white;
 }
 
+.login__guest {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+.login__alert {
+    color: rgba(255, 255, 255, 0.1);
+    font-size: 12px;
+    margin-top: -10px;
+}
+
 .settings {
     align-items: center;
     display: flex;

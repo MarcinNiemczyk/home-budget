@@ -17,7 +17,7 @@ def create_app():
 
     from .models import User, Transactions, PlannedOutcomes, PlannedIncomes, TransactionsSchema
 
-    # Create database
+    # Initiate apps
     with app.app_context():
         db.init_app(app)
         ma.init_app(app)

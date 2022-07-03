@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, request, render_template, redirect, session, url_for 
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.models import Transactions, login_required, User
+from src.models import Transactions, login_required, User, PlannedIncomes, PlannedOutcomes, StartingBalance
 from src import db
 
 
@@ -59,7 +59,7 @@ def password():
 @settings.route('/settings/remove-account', methods=['GET', 'POST'])
 @login_required
 def remove():
-    """Remove user account"""
+    """Handle user account request"""
 
     if request.method == 'POST':
         # Get data from submitted form
@@ -73,12 +73,8 @@ def remove():
             flash("Invalid password", category='error')
             return redirect(url_for('settings.remove'))
         
-        # Remove all user transactions
-        Transactions.query.filter_by(user_id=user.id).delete()
-
         # Remove user from database
-        User.query.filter_by(id=user.id).delete()
-        db.session.commit()
+        remove_user(user.id)
 
         # Forget session id and redirect user to login form
         session.clear()
@@ -86,6 +82,18 @@ def remove():
         return redirect(url_for('auth.login'))
 
     return render_template('settings/remove-account.html')
+
+
+def remove_user(id):
+    """Remove every row in database with matching user id"""
+    Transactions.query.filter_by(user_id=id).delete()
+    PlannedOutcomes.query.filter_by(user_id=id).delete()
+    PlannedIncomes.query.filter_by(user_id=id).delete()
+    StartingBalance.query.filter_by(user_id=id).delete()
+    User.query.filter_by(id=id).delete()
+
+    # Apply changes
+    db.session.commit()
 
 
 @settings.route('/settings/currency')

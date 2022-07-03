@@ -1,4 +1,4 @@
-from flask import redirect, session
+from flask import redirect, session, url_for
 from functools import wraps
 from datetime import date
 from src import db, ma
@@ -35,8 +35,15 @@ def login_required(f):
     """Decorate routes to require login."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # Check if user has active session
         if session.get('user_id') is None:
-            return redirect('/login')
+            return redirect(url_for('auth.login'))
+        else:
+            # Ensure cookies are correct
+            user = User.query.filter_by(id=session['user_id']).first()
+            if not user:
+                session.clear()
+                return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function
 

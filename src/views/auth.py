@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.models import User
+from src.models import PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, User
 from src import db
-
+from src.views.settings import remove_user
+import secrets
 
 auth = Blueprint('auth', __name__)
 
@@ -61,6 +62,7 @@ def register():
         
         # Log registered user in
         session['user_id'] = user.id
+        session['logged_as'] = 'user'
         flash("Successfully registered!", category='success')
 
         # Redirect user to home page
@@ -75,7 +77,7 @@ def login():
 
     # Prevent logged user from accessing page 
     if 'user_id' in session:
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('home.index'))
 
     if request.method == 'POST':
         # Get user data from submitted form
@@ -97,6 +99,7 @@ def login():
         
         # Remember which user has logged in
         session['user_id'] = user.id
+        session['logged_as'] = 'user'
         flash("Successfully logged in!", category='success')
 
         # Redirect user to home page
@@ -111,8 +114,49 @@ def logout():
 
     # Ensure user is logged in
     if 'user_id' in session:
+        # Check logged user type
+        if session['logged_as'] == 'guest':
+            # Remove guest account
+            remove_user(session['user_id'])
+        # Forget session data
         session.clear()
         flash("Successfully logged out", category='success')
 
-    # Redirect user to home page  
+    # Redirect user to login form  
+    return redirect(url_for('auth.login'))
+
+
+@auth.route('/guest')
+def guest():
+    """Log in user as guest"""
+
+    # Prevent logged user from accessing page 
+    if 'user_id' in session:
+        return redirect(url_for('auth.index'))
+
+    # Generate random guest username
+    username = secrets.token_urlsafe(19)
+
+    # Query database for username
+    user = User.query.filter_by(username=username).first()
+
+    # If username is in database, repeat process of random token
+    if user:
+        return guest()
+
+    # Generate password hash
+    password = secrets.token_hex(19)
+    hash = generate_password_hash(password, method='sha256')
+
+    # Create guest model
+    guest = User(username=username, password=hash)
+
+    # Add guest to database
+    db.session.add(guest)
+    db.session.commit()
+
+    # Remember guest current session
+    session['user_id'] = guest.id
+    session['logged_as'] = 'guest'
+
     return redirect(url_for('home.index'))

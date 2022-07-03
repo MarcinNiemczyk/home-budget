@@ -19,4 +19,14 @@
         <a class="form__redirect" href="{{ url_for('auth.register') }}">Create new account</a>
         <button class="form__button" type="submit">Log In</button>
     </form>
+    <div class="login__guest">
+        <a class="button" href="{{ url_for('auth.guest') }}">
+            <div class="button__container">
+                <i class="button__icon fa-solid fa-user-check"></i>
+                <p>Enter as guest</p>
+            </div>
+        </a>
+        <p class="login__alert">Your data will be available until you log out</p>
+    </div>
+
 {% endblock %}
