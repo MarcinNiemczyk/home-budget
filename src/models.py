@@ -1,11 +1,12 @@
-from flask import redirect, session, url_for
 from functools import wraps
 from datetime import date
+from flask import redirect, session, url_for
 from src import db, ma
 
 
 CATEGORIES = {
-    'outcome': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
+    'outcome': ['grocery', 'health', 'house', 'personal', 'media', 'savings', 
+                'debts', 'whims', 'transport', 'gifts', 'travels', 'other'],
     'income': ['savings', 'salary', 'bonus', 'interest', 'gifts', 'other']
 }
 

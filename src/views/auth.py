@@ -1,9 +1,12 @@
-from flask import Blueprint, flash, redirect, render_template, request, session, url_for
-from werkzeug.security import check_password_hash, generate_password_hash
-from src.models import PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, User
-from src import db
-from src.views.settings import remove_user
 import secrets
+from flask import (Blueprint, flash, redirect, render_template, request, 
+                   session, url_for)
+from werkzeug.security import check_password_hash, generate_password_hash
+from src import db
+from src.models import (PlannedOutcomes, PlannedIncomes, StartingBalance, 
+                        Transactions, User)
+from src.views.settings import remove_user
+
 
 auth = Blueprint('auth', __name__)
 

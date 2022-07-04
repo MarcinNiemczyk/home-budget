@@ -1,7 +1,7 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-import os
 
 
 db = SQLAlchemy()
@@ -15,9 +15,10 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
 
-    from .models import User, Transactions, PlannedOutcomes, PlannedIncomes, TransactionsSchema
+    from .models import (User, Transactions, PlannedOutcomes, PlannedIncomes, 
+                         TransactionsSchema)
 
-    # Initiate apps
+    # Initiate database
     with app.app_context():
         db.init_app(app)
         ma.init_app(app)

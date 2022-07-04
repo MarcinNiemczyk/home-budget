@@ -1,12 +1,14 @@
-from flask import Blueprint, flash, render_template, redirect, url_for, session, request
 from datetime import date
+from flask import Blueprint, flash, render_template, redirect, url_for, session, request
 from src import db
 from src.models import CATEGORIES, MONTHS, YEARS, PlannedIncomes, PlannedOutcomes, login_required
 
 
 planning = Blueprint('planning', __name__)
 
-@planning.route('/planning', defaults={'year': date.today().year, 'month': date.today().month}, methods=['GET', 'POST'])
+@planning.route('/planning', defaults={'year': date.today().year, 
+                                       'month': date.today().month}, 
+                methods=['GET', 'POST'])
 @planning.route('/planning/<int:year>/<int:month>', methods=['GET', 'POST'])
 @login_required
 def planning_page(year, month):
@@ -46,14 +48,18 @@ def planning_page(year, month):
                     amount = int(request.form.get(category))
                 except ValueError:
                     flash('Amount must be a number value', category='error')
-                    return redirect(url_for('planning.planning_page', year=year, month=month))
+                    return redirect(url_for('planning.planning_page', year=year, 
+                                            month=month))
                 # Ensure amount is correct value
                 if amount < 0 or amount > 9999999:
                     flash('Incorrect amount', category='error')
-                    return redirect(url_for('planning.planning_page', year=year, month=month))
+                    return redirect(url_for('planning.planning_page', 
+                                            year=year, month=month))
                 
                 # Add category to database
-                new_record = PlannedOutcomes(category=category, amount=amount, month=month, year=year, user_id=session['user_id'])
+                new_record = PlannedOutcomes(category=category, amount=amount, 
+                                             month=month, year=year, 
+                                             user_id=session['user_id'])
                 if planned_outcomes:
                     for record in planned_outcomes:
                         if record.category == category:
@@ -65,7 +71,8 @@ def planning_page(year, month):
             db.session.commit()
             flash('Planned outcomes updated!', category='success')
 
-            return redirect(url_for('planning.planning_page', year=year, month=month))
+            return redirect(url_for('planning.planning_page', year=year, 
+                                    month=month))
         
         # Handle request for planned incomes
         elif request.form.get('save_button') == 'Update Incomes':
@@ -76,14 +83,18 @@ def planning_page(year, month):
                     amount = int(request.form.get(category))
                 except ValueError:
                     flash('Amount must be a number value', category='error')
-                    return redirect(url_for('planning.planning_page', year=year, month=month))
+                    return redirect(url_for('planning.planning_page', 
+                                            year=year, month=month))
                 # Ensure amount is correct value
                 if amount < 0 or amount > 9999999:
                     flash('Incorrect amount', category='error')
-                    return redirect(url_for('planning.planning_page', year=year, month=month))
+                    return redirect(url_for('planning.planning_page', 
+                                            year=year, month=month))
                 
                 # Add category to database
-                new_record = PlannedIncomes(category=category, amount=amount, month=month, year=year, user_id=session['user_id'])
+                new_record = PlannedIncomes(category=category, amount=amount, 
+                                            month=month, year=year, 
+                                            user_id=session['user_id'])
                 if planned_incomes:
                     for record in planned_incomes:
                         if record.category == category:
@@ -95,12 +106,14 @@ def planning_page(year, month):
             db.session.commit()
             flash('Planned incomes updated!', category='success')
 
-            return redirect(url_for('planning.planning_page', year=year, month=month))
+            return redirect(url_for('planning.planning_page', 
+                                    year=year, month=month))
 
     outcomes = sort_records('outcome', planned_outcomes)
     incomes = sort_records('income', planned_incomes)
         
-    return render_template('planning/planning.html', outcomes=outcomes, incomes=incomes, years=YEARS[1::], 
+    return render_template('planning/planning.html', outcomes=outcomes, 
+                           incomes=incomes, years=YEARS[1::], 
            months=months, selected_year=year, selected_month=month)
 
 

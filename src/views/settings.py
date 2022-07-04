@@ -1,7 +1,9 @@
-from flask import Blueprint, flash, request, render_template, redirect, session, url_for 
+from flask import (Blueprint, flash, request, render_template, redirect, 
+                   session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
-from src.models import Transactions, login_required, User, PlannedIncomes, PlannedOutcomes, StartingBalance
 from src import db
+from src.models import (Transactions, login_required, User, PlannedIncomes, 
+                        PlannedOutcomes, StartingBalance)
 
 
 settings = Blueprint('settings', __name__)

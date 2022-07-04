@@ -1,15 +1,19 @@
-from flask import Blueprint, flash, jsonify, request, redirect, render_template, session, url_for
-from sqlalchemy import extract
-from datetime import date, datetime
-from src.models import login_required, CATEGORIES, TRANSACTION_TYPES, YEARS, MONTHS, Transactions, TransactionsSchema
-from src import db
 import json
+from datetime import date
+from flask import (Blueprint, flash, jsonify, request, redirect, 
+                   render_template, session, url_for)
+from sqlalchemy import extract
+from src import db
+from src.models import (login_required, CATEGORIES, TRANSACTION_TYPES, YEARS, 
+                        MONTHS, Transactions, TransactionsSchema)
 
 
 transactions = Blueprint('transactions', __name__)
 
-@transactions.route('/transactions', defaults={'year': date.today().year, 'month': date.today().month, 'transaction_type': 'all'})
-@transactions.route('/transactions/<int:year>/<int:month>/<transaction_type>', methods=['GET', 'POST'])
+@transactions.route('/transactions', defaults={'year': date.today().year, 
+                    'month': date.today().month, 'transaction_type': 'all'})
+@transactions.route('/transactions/<int:year>/<int:month>/<transaction_type>', 
+                    methods=['GET', 'POST'])
 @login_required
 def transactions_page(year, month, transaction_type):
     """Show user transactions and allow him to modify data."""
@@ -33,11 +37,13 @@ def transactions_page(year, month, transaction_type):
 
     # Query for applied month
     if not month == 0:
-        transactions = transactions.filter(extract('month', Transactions.date)==month)
+        transactions = transactions.filter(extract('month', 
+                       Transactions.date)==month)
 
     # Query for applied year
     if not year == 0:
-        transactions = transactions.filter(extract('year', Transactions.date)==year)
+        transactions = transactions.filter(extract('year', 
+                       Transactions.date)==year)
 
     # Handle transaction type
     if not transaction_type == 'all':
@@ -45,7 +51,8 @@ def transactions_page(year, month, transaction_type):
 
     # Handle search functionality
     if search_text:
-        transactions = transactions.filter(Transactions.name.like((f'%{search_text}%')))
+        transactions = transactions.filter(Transactions.name.like((
+                       f'%{search_text}%')))
 
     # Apply selected filters
     transactions = transactions.all()
@@ -56,8 +63,11 @@ def transactions_page(year, month, transaction_type):
         output = transactions_schema.dump(transactions, many=True)
         return jsonify(output)
 
-    return render_template('transactions/transactions.html', transactions=transactions, months=MONTHS, years=YEARS, 
-           transaction_types=TRANSACTION_TYPES, selected_month=month, selected_year=year, selected_type=transaction_type)
+    return render_template('transactions/transactions.html', 
+                            transactions=transactions, months=MONTHS, 
+                            years=YEARS, transaction_types=TRANSACTION_TYPES, 
+                            selected_month=month, selected_year=year, 
+                            selected_type=transaction_type)
 
 
 @transactions.route('/transactions/add', methods=['GET', 'POST'])
@@ -112,22 +122,29 @@ def add_transaction():
 
         # Validate transaction category input
         category = request.form.get('category')
-        if transaction_type == 'outcome' and category not in CATEGORIES['outcome']:
+        if (transaction_type == 'outcome') and (
+            category not in CATEGORIES['outcome']):
             flash('Incorrect category', category='error')
             return redirect(url_for('transactions.add_transaction'))
-        if transaction_type == 'income' and category not in CATEGORIES['income']:
+        if (transaction_type == 'income') and (
+            category not in CATEGORIES['income']):
             flash('Incorrect category', category='error')
             return redirect(url_for('transactions.add_transaction'))
 
         # Create new transaction and add it to database
-        new_transaction = Transactions(name=name, type=transaction_type, amount=amount, category=category, date=date_output, user_id = session['user_id'])
+        new_transaction = Transactions(name=name, type=transaction_type, 
+                                       amount=amount, category=category, 
+                                       date=date_output, 
+                                       user_id = session['user_id'])
         db.session.add(new_transaction)
         db.session.commit()
         flash('Transaction added!', category='success')
 
     today = date.today()
 
-    return render_template('transactions/add-transaction.html', outcomes=CATEGORIES['outcome'], incomes=CATEGORIES['income'], today=today)
+    return render_template('transactions/add-transaction.html', 
+                            outcomes=CATEGORIES['outcome'], 
+                            incomes=CATEGORIES['income'], today=today)
 
 
 @transactions.route('/remove-transaction', methods=['POST'])

@@ -1,13 +1,19 @@
 from decimal import DivisionByZero
-from flask import flash, redirect, render_template, Blueprint, request, session, url_for
-from sqlalchemy import extract
 from datetime import date
-from src.models import CATEGORIES, MONTHS, YEARS, PlannedOutcomes, PlannedIncomes, StartingBalance, Transactions, login_required
+from flask import (flash, redirect, render_template, Blueprint, request, 
+                   session, url_for)
+from sqlalchemy import extract
 from src import db
+from src.models import (CATEGORIES, MONTHS, YEARS, PlannedOutcomes, 
+                        PlannedIncomes, StartingBalance, Transactions, 
+                        login_required)
+
 
 home = Blueprint('home', __name__)
 
-@home.route('/', defaults={'year': date.today().year, 'month': date.today().month}, methods=['GET', 'POST'])
+@home.route('/', defaults={'year': date.today().year, 
+                           'month': date.today().month}, 
+            methods=['GET', 'POST'])
 @home.route('/<int:year>/<int:month>', methods=['GET', 'POST'])
 @login_required
 def index(year, month):
@@ -22,11 +28,15 @@ def index(year, month):
     incomes, incomes_sum = get_statement(year, month, 'income')
 
     # Get length of outcomes/incomes charts
-    outcomes_chart_length = calculate_chart_length(outcomes_sum['planned'], outcomes_sum['real'])
-    incomes_chart_length = calculate_chart_length(incomes_sum['planned'], incomes_sum['real'])
+    outcomes_chart_length = calculate_chart_length(outcomes_sum['planned'], 
+                                                   outcomes_sum['real'])
+    incomes_chart_length = calculate_chart_length(incomes_sum['planned'], 
+                                                  incomes_sum['real'])
 
     # Get user's starting balance
-    starting_balance = StartingBalance.query.filter_by(user_id=session['user_id'], month=month, year=year).first()
+    starting_balance = StartingBalance.query.filter_by(
+                                        user_id=session['user_id'], 
+                                        month=month, year=year).first()
 
     # Update starting balance
     if request.method == 'POST':
@@ -42,7 +52,9 @@ def index(year, month):
             return redirect(url_for('home.index', year=year, month=month))
         
         # Update database
-        new_starting_balance = StartingBalance(amount=updated_amount, month=month, year=year, user_id=session['user_id'])
+        new_starting_balance = StartingBalance(amount=updated_amount, 
+                                               month=month, year=year, 
+                                               user_id=session['user_id'])
         if starting_balance:
             starting_balance.amount = updated_amount
         else:
@@ -59,23 +71,34 @@ def index(year, month):
         starting_balance = 0
 
     # Final and starting balance chart
-    final_balance = starting_balance - outcomes_sum['real'] + incomes_sum['real']
-    balance_chart_length = calculate_chart_length(starting_balance, final_balance)
+    final_balance = starting_balance - outcomes_sum['real'] \
+                    + incomes_sum['real']
+    balance_chart_length = calculate_chart_length(starting_balance, 
+                                                  final_balance)
     
     # Overall statistics of current month
     try:
-        savings_increase = str(int(((final_balance / starting_balance) - 1) * 100)) + '%'
+        savings_increase = str(int(((final_balance / starting_balance) - 1) \
+                           * 100)) + '%'
     except ZeroDivisionError:
         savings_increase = '-'
     saved = final_balance - starting_balance
 
-    return render_template('home/index.html', months=months, years=YEARS[1::], selected_month=month, selected_year=year, outcomes=outcomes, outcomes_sum=outcomes_sum,
-            incomes=incomes, incomes_sum=incomes_sum, outcomes_chart_length=outcomes_chart_length, incomes_chart_length=incomes_chart_length, starting_balance=starting_balance,
-            final_balance=final_balance, balance_chart_length=balance_chart_length, savings_increase=savings_increase, saved=saved)
+    return render_template('home/index.html', months=months, years=YEARS[1::], 
+                           selected_month=month, selected_year=year, 
+                           outcomes=outcomes, outcomes_sum=outcomes_sum, 
+                           incomes=incomes, incomes_sum=incomes_sum, 
+                           outcomes_chart_length=outcomes_chart_length, 
+                           incomes_chart_length=incomes_chart_length, 
+                           starting_balance=starting_balance,
+                           final_balance=final_balance, 
+                           balance_chart_length=balance_chart_length, 
+                           savings_increase=savings_increase, saved=saved)
 
 
 def get_statement(year, month, transaction_type):
-    """Get monthly statement of declared type and return list of dictionaries for each category and overall sum dictionary"""
+    """Get monthly statement of declared type and return list 
+       of dictionaries for each category and overall sum dictionary"""
 
     # Initiate output data
     statements = []
@@ -95,9 +118,13 @@ def get_statement(year, month, transaction_type):
         }
         # Handle planned data query for each transaction type
         if transaction_type == 'outcome':
-            planned = PlannedOutcomes.query.filter_by(user_id=session['user_id'], month=month, year=year, category=category).first()
+            planned = PlannedOutcomes.query.filter_by(user_id=session['user_id'], 
+                                                      month=month, year=year, 
+                                                      category=category).first()
         else:
-            planned = PlannedIncomes.query.filter_by(user_id=session['user_id'], month=month, year=year, category=category).first()
+            planned = PlannedIncomes.query.filter_by(user_id=session['user_id'], 
+                                                     month=month, year=year, 
+                                                     category=category).first()
 
         # Ensure user has planned expenses
         if planned:
@@ -105,8 +132,11 @@ def get_statement(year, month, transaction_type):
             sum['planned'] += planned.amount
 
         # Query database for every transaction of selected type
-        transactions = Transactions.query.filter_by(user_id=session['user_id'], category=category, type=transaction_type).filter(
-                       extract('year', Transactions.date)==year).filter(extract('month', Transactions.date)==month).all()
+        transactions = Transactions.query.filter_by(user_id=session['user_id'], 
+                                                    category=category, 
+                                                    type=transaction_type).filter(
+                       extract('year', Transactions.date)==year).filter(
+                       extract('month', Transactions.date)==month).all()
 
         # Sum every transaction
         transactions_sum = 0
