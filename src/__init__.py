@@ -10,10 +10,12 @@ ma = Marshmallow()
 def create_app():
     # Configure application
     app = Flask(__name__)
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
     # Configure database
-    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI')
+    DB_URI = os.environ.get('DATABASE_URL')
+    app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI.replace('postgres://', 
+                                                           'postgresql://')
 
     from .models import (User, Transactions, PlannedOutcomes, PlannedIncomes, 
                          TransactionsSchema)
