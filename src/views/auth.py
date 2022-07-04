@@ -138,7 +138,7 @@ def guest():
         return redirect(url_for('auth.index'))
 
     # Generate random guest username
-    username = secrets.token_urlsafe(19)
+    username = secrets.token_urlsafe(16)
 
     # Query database for username
     user = User.query.filter_by(username=username).first()
@@ -148,7 +148,7 @@ def guest():
         return guest()
 
     # Generate password hash
-    password = secrets.token_hex(19)
+    password = secrets.token_hex(16)
     hash = generate_password_hash(password, method='sha256')
 
     # Create guest model
